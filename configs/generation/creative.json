@@ -1,0 +1,12 @@
+{
+    "do_sample": true,
+    "temperature": 1.5,
+    "top_p": 0.8,
+    "min_new_tokens": 256,
+    "max_new_tokens": 1280,
+    "length_penalty": 1.0,
+    "repetition_pentaly": 1.05,
+    "no_repeat_ngram_size": 20,
+    "exponential_decay_length_penalty": [768, 1.0]
+}
+

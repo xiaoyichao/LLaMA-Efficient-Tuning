@@ -1,0 +1,1 @@
+rsync -avz --ignore-existing /root/paddlejob/workspace/env_run/logs/ /root/paddlejob/workspace/env_run/afs/logs/
