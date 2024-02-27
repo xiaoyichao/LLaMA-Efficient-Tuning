@@ -26,8 +26,8 @@ stages=(
 )
 
 datasets=(
-  "alpaca_zh"
-    # "novel"
+  # "polish"
+  "generate_novel_1600"
 )
 
 models=( 
@@ -70,7 +70,7 @@ sft_types=(
     "full"
 )
 
-per_device_train_batch_size=8   # MAX 2 FOR Yi-34B on A100
+per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
 zero_stage=1
 num_train_epochs=1
 
@@ -135,7 +135,7 @@ esac
 # Single Node: deepspeed --include=localhost:1,3,4,5,6,7 --master_port=9997 src/train_bash.py \
 # 0,1,2,3,4,5,6,7
 TRAIN="""
-deepspeed --include=localhost:6,3,5 --master_port=9997 src/train_bash.py \
+deepspeed --include=localhost:1,4,7 --master_port=9997 src/train_bash.py \
     --stage sft \
     --model_name_or_path ${model_path}/${model}\
     --do_train \

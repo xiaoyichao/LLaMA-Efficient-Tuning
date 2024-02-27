@@ -10,7 +10,7 @@ start_cmd=". paddle/job.sh"
 file_dir="."
 job_version="pytorch-1.7.1"
 k8s_trainers=1
-k8s_gpu_cards=4
+k8s_gpu_cards=8
 algo_id=algo-b246a6f3c20940b8
 
 ak='09d5444054c15494ab0107bdcd077916'

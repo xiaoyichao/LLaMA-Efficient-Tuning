@@ -11,13 +11,13 @@
 ######### VARIABLES ##########
 
 stages=(
-  #  1           # TRAIN
+   1           # TRAIN
   # 2           # INFER
   # 4           # EVAL
   # 8           # LOOP
   # 3           # TRAIN-INFER
   # 6           # INFER-EVAL
-  9           # TRAIN-LOOP
+  # 9           # TRAIN-LOOP
   # 10          # INFER-LOOP
   # 7           # TRAIN-INFER-EVAL
   # 11          # TRAIN-INFER-LOOP
@@ -26,7 +26,7 @@ stages=(
 )
 
 datasets=(
-  "novel"
+  "polish"
     # "novel_big"
 	#"CompleFilt"
     # "Instructed"
@@ -40,8 +40,8 @@ models=(
     # "Baichuan2-13B-Chat"
     # "InternLM-20B"
     # "InternLM-Chat-20B"
-    "Qwen-14B"
-    # "Qwen-14B-Chat"
+    # "Qwen-14B"
+    "Qwen1.5-72B-Chat"
     # "Yi-34B"
     # "Yi-34B-Chat"
 )
@@ -166,11 +166,6 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 \
-    # --use_unsloth \
-    # --lora_target all \
-    # --lora_rank 64 \
-    # --num_layer_trainable 12 \
-    # --adapter_name_or_path ${model_path}/${model} \
 """
 if [ $((stage & 1)) -ne 0 ]; then
   echo "Start [TRAIN]"
