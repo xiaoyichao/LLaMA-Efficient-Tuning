@@ -49,7 +49,7 @@ tools=(
 models=(
     "models/Qwen-14B.tar"
     "models/Qwen-14B-Chat.tar"
-    # "models/Yi-34B.tar"
+    "models/Qwen1.5-72B-Chat.tar"
     # "models/Yi-34B-Chat.tar"
     # "models/Baichuan2-13B-Base.tar"
 )

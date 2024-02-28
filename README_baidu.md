@@ -50,7 +50,7 @@ http://paddlecloud.baidu-int.com/paddle
     python3 -m http.server 8048
 paddle 机器上下载模型
 cd /root/paddlejob/workspace/env_run/models
-wget yq02-bcc-sci-a800-25525-002.bcc-yq02.baidu.com:8048/DataVault/models/Qwen1.5-72B-Chat.tar
+wget yq02-bcc-sci-a800-25525-001.bcc-yq02.baidu.com:8048/DataVault/models/Qwen1.5-72B-Chat.tar
 wget 10.96.202.13:8048/DataVault/models/Qwen1.5-72B-Chat.tar
 
 tar -xvf Qwen1.5-72B-Chat.tar
@@ -63,8 +63,10 @@ ps -ef | grep conf.sh
 wandb login
 如果不想用wandb，如何禁用wandb
 export WANDB_DISABLED=true
+wandb disabled
 如何设置为off-line的模式（因为paddle队列没有外网的权限）
 export WANDB_MODE=offline
+wandb offline
 
 ### 在paddle上，启动运行训练模型的脚本
 cd /root/paddlejob/workspace/env_run

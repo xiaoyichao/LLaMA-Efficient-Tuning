@@ -165,3 +165,4 @@ saves/
 cache/
 data/
 wandb/
+*.tar.gz
