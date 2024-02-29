@@ -1,4 +1,7 @@
 {
+  "polish": {
+    "file_name": "train/polish.jsonl"
+  },
   "generate_novel_1600": {
     "file_name": "generate_novel_1600.jsonl"
   },

@@ -27,7 +27,8 @@ stages=(
 
 datasets=(
   # "polish"
-  "generate_novel_1600"
+  # "generate_novel_1600"
+  "alpaca_zh"
 )
 
 models=( 
@@ -135,7 +136,7 @@ esac
 # Single Node: deepspeed --include=localhost:1,3,4,5,6,7 --master_port=9997 src/train_bash.py \
 # 0,1,2,3,4,5,6,7
 TRAIN="""
-deepspeed --include=localhost:1,4,7 --master_port=9997 src/train_bash.py \
+deepspeed --include=localhost:2,4,6 --master_port=9997 src/train_bash.py \
     --stage sft \
     --model_name_or_path ${model_path}/${model}\
     --do_train \
@@ -159,7 +160,7 @@ deepspeed --include=localhost:1,4,7 --master_port=9997 src/train_bash.py \
     --warmup_steps 100 \
     --plot_loss \
     --bf16 \
-    --preprocessing_num_workers 4 \
+    --preprocessing_num_workers 20 \
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 
