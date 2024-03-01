@@ -40,8 +40,8 @@ models=(
     # "Baichuan2-13B-Chat"
     # "InternLM-20B"
     # "InternLM-Chat-20B"
-    # "Qwen-14B"
-    "Qwen1.5-72B-Chat"
+    "Qwen1.5-72B-Chat-AWQ"
+    # "Qwen1.5-72B-Chat"
     # "Yi-34B"
     # "Yi-34B-Chat"
 )
@@ -73,8 +73,8 @@ sft_types=(
     "full"
 )
 
-per_device_train_batch_size=8   # MAX 2 FOR Yi-34B on A100
-zero_stage=2
+per_device_train_batch_size=2   # MAX 2 FOR Yi-34B on A100
+zero_stage=3
 num_train_epochs=16
 
 ########## CONFIG ##########
@@ -153,7 +153,7 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --save_total_limit 1 \
     --save_only_model \
     --per_device_train_batch_size ${per_device_train_batch_size} \
-    --gradient_accumulation_steps 1 \
+    --gradient_accumulation_steps 2 \
     --lr_scheduler_type cosine \
     --logging_steps 0.001 \
     --learning_rate 3e-5 \
@@ -166,6 +166,7 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 \
+    --save_on_each_node True
 """
 if [ $((stage & 1)) -ne 0 ]; then
   echo "Start [TRAIN]"
