@@ -1,5 +1,7 @@
 from llmtuner import create_web_demo
+import os
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 def main():
     demo = create_web_demo()

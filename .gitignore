@@ -165,4 +165,5 @@ saves/
 cache/
 data/
 wandb/
+models/
 *.tar.gz

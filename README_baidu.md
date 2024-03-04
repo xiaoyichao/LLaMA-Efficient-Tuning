@@ -105,6 +105,11 @@ CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
     --template default \
     --finetuning_type full
 
+CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
+    --model_name_or_path /ssd3/xiaoyichao/LLaMA-Efficient-Tuning/models/Qwen1.5-0.5B-Chat-1 \
+    --template default \
+    --finetuning_type full
+
 #### cli_demo
 CUDA_VISIBLE_DEVICES=5 python src/cli_demo.py \
     --model_name_or_path /home/work/wenku_yq/xiaoyichao/blaze/Qwen-14B-Chat/checkpoints \

@@ -1,4 +1,13 @@
 {
+  "novel_all": {
+    "file_name": "train/novel_all.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output",
+      "history": "history"
+    }
+  },
   "polish": {
     "file_name": "train/polish.jsonl"
   },
