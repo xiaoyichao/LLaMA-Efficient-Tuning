@@ -1,5 +1,7 @@
 from llmtuner import run_exp
+import wandb
 
+wandb.init(mode="offline")
 
 def main():
     run_exp()

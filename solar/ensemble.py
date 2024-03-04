@@ -1,0 +1,60 @@
+'''
+solar 模型的思路，集联模型
+'''
+
+import os
+import torch
+from transformers import AutoModel
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+
+
+def modify_and_merge_models(model_path):
+
+    # 加载预训练的模型
+    print("Loading model...")
+    model_head = AutoModel.from_pretrained(model_path)
+    print("第一个模型加载完成")
+    model_tail = AutoModel.from_pretrained(model_path)
+    print("第二个模型加载完成")
+    # 去掉前8层和后8层
+    modified_layers_head = model_head.layers[8:]  # 去掉前8层
+    modified_layers_tail = model_tail.layers[:-8]  # 去掉后8层
+
+    # 将剩下的层合并
+    merged_layers = torch.nn.ModuleList(modified_layers_head + modified_layers_tail)
+
+    # 创建一个新的模型以存储合并后的层
+    print("创建一个新的模型以存储合并后的层, Loading model...")
+    merged_model = AutoModel.from_pretrained(model_path)  # 重新加载一个模型作为基础
+    merged_model.layers = merged_layers  # 用合并后的层替换
+
+    return merged_model
+
+def save_model(model, save_path):
+    """
+    保存模型到本地
+    
+    Args:
+        model (object): 需要保存的模型对象
+        save_path (str): 保存模型的路径
+    
+    Returns:
+        None
+    
+    """
+    model.save_pretrained(save_path)
+    print("模型保存完成")
+
+if __name__ == "__main__":
+    # 模型路径
+    model_path = "/home/work/wenku_yq/DataVault/models/Qwen1.5-0.5B"
+    save_path = "./models/solar"
+
+    # 修改和合并模型
+    merged_model = modify_and_merge_models(model_path)
+
+    # 保存模型
+    save_model(merged_model, save_path)
+
+
