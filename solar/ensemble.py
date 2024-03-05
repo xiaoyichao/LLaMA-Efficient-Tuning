@@ -48,7 +48,7 @@ def save_model(model, save_path):
 
 if __name__ == "__main__":
     # 模型路径
-    model_path = "/home/work/wenku_yq/DataVault/models/Qwen1.5-0.5B"
+    model_path = "models/Qwen1.5-0.5B-Chat"
     save_path = "./models/solar"
 
     # 修改和合并模型

@@ -28,12 +28,14 @@ stages=(
 datasets=(
   # "polish"
   # "generate_novel_1600"
-  # "alpaca_zh"
-  "oaast_sft_zh"
+  "alpaca_zh"
+  # "oaast_sft_zh"
 )
 
 models=( 
-    "Qwen1.5-0.5B"
+    # "Qwen1.5-0.5B-Chat"
+    "Qwen1.5-0.5B-Chat-solar"
+    # "Qwen1.5-0.5B"
     # "ChatGLM3-6B-Base"
     # "Baichuan2-13B-Base"
     # "Baichuan2-13B-Chat"
@@ -72,9 +74,9 @@ sft_types=(
     "full"
 )
 
-per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
+per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
 zero_stage=1
-num_train_epochs=1
+num_train_epochs=16
 
 ########## CONFIG ##########
 stage=${stages[@]:0:1}
@@ -93,6 +95,11 @@ if [ "$username" = "root" ]; then
     log_path="logs"
     archive_path="archive"
 else
+    # model_path="/ssd3/xiaoyichao/LLaMA-Efficient-Tuning/models/Qwen1.5-0.5B-Chat"
+    # model_path="/home/work/wenku_yq/DataVault/models/Qwen1.5-0.5B-Chat"
+    # checkpoint_path="checkpoints"
+    # log_path="logs"
+    # archive_path="archive"
     model_path="/home/work/wenku_yq/DataVault/models"
     checkpoint_path="/home/work/wenku_yq/${username}/blaze/checkpoints"
     log_path="/home/users/${username}/logs"
@@ -137,7 +144,7 @@ esac
 # Single Node: deepspeed --include=localhost:1,3,4,5,6,7 --master_port=9997 src/train_bash.py \
 # 0,1,2,3,4,5,6,7
 TRAIN="""
-deepspeed --include=localhost:1,2,7,6 --master_port=9997 src/train_bash.py \
+deepspeed --include=localhost:0,2,4,5 --master_port=9997 src/train_bash.py \
     --stage sft \
     --model_name_or_path ${model_path}/${model}\
     --do_train \
@@ -152,7 +159,7 @@ deepspeed --include=localhost:1,2,7,6 --master_port=9997 src/train_bash.py \
     --save_total_limit 2 \
     --save_only_model \
     --per_device_train_batch_size ${per_device_train_batch_size} \
-    --gradient_accumulation_steps 1 \
+    --gradient_accumulation_steps 4 \
     --lr_scheduler_type cosine \
     --logging_steps 0.001 \
     --learning_rate 3e-5 \

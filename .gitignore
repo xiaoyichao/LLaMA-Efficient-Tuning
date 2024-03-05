@@ -167,3 +167,6 @@ data/
 wandb/
 models/
 *.tar.gz
+checkpoints/
+logs/
+archive/

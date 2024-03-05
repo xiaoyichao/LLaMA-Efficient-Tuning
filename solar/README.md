@@ -5,3 +5,4 @@
 ## 复制文件夹
 
 ## 修改config 文件
+num_hidden_layers=32

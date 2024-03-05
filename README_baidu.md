@@ -15,7 +15,7 @@ https://ku.baidu-int.com/knowledge/HFVrC7hq1Q/yKeL8Lljko/3QdgIc7cJj/6UApmq-gDEoa
 安装conda-pack
 conda install -c conda-forge conda-pack
 打包自己的环境
-conda pack -n qwen -o qwen.tar.gz
+conda pack -n qwen2 -o qwen.tar.gz
 
 ### 配置afs自己的文件夹的内容，用于paddle和开发机文件传输
 vim paddle/config.ini
@@ -67,6 +67,10 @@ wandb disabled
 如何设置为off-line的模式（因为paddle队列没有外网的权限）
 export WANDB_MODE=offline
 wandb offline
+
+### 如何在开发机上，启动运行训练模型的脚本
+bash script/pipeline_local.sh
+
 
 ### 在paddle上，启动运行训练模型的脚本
 cd /root/paddlejob/workspace/env_run

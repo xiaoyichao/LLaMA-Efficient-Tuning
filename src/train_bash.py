@@ -1,6 +1,7 @@
 from llmtuner import run_exp
 import wandb
 
+# wandb.init(mode="online")
 wandb.init(mode="offline")
 
 def main():
