@@ -1,0 +1,154 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+
+        {
+            "name": "Python: 当前文件",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            // "cwd": "${fileDirname}",
+            "args": [
+               
+            ]
+        },
+        {
+            "name": "Python: generate_sft4baichuan",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--bot_type",
+                "eblite-resume-format",
+                "--output_path",
+                "data/模板简历",
+            ]
+        },
+
+        {
+            "name": "Python: resume_format",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--bot_type",
+                "eblite-resume-format",
+                "--output_path",
+                "data/模板简历",
+            ]
+        },
+        {
+            "name": "Python: get_image",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--input_path",
+                "/ssd1/xiaoyichao/projects/baidu/huyu_llm/huyu_llm_offline/data/ppt/ppt_query/1.txt",
+                "--output_path",
+                "/ssd1/xiaoyichao/projects/baidu/huyu_llm/huyu_llm_offline/data/pic_data/1.pkl",
+            ]
+        },
+        {
+            "name": "Python: single_talk_request_ensemble",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--input_file_path",
+                "data/novel/cleaned_data_bd2k_tb14_0123.xlsx",
+                "--task_type=章节关键点",
+                "--sheet_name",
+                "Sheet1",
+                "--columns",
+                "3",
+                "--begin_row",
+                "0",
+                "--bot_type",
+                "eb4",
+                "--output_dir_path",
+                "data/output/novel/"
+            ]
+        },
+        {
+            "name": "Python: single_talk_request_ensemble_eblite",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--input_file_path",
+                "../youbo_0914_33case/last.xlsx",
+                "--columns",
+                "0",
+                "--begin_row",
+                "0",
+                "--bot_type",
+                "eblite-sft-md",
+            ]
+        },
+        {
+            "name": "Python: json2excel",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--jsonl_data_path",
+                "/ssd1/xiaoyichao/projects/baidu/aigc-operators/strategy/xiaoyichao_gpt/output/generate/生成了模型输出的query/个人简历-外包-20230618-yiyan.json",
+                "--out_excel_file_path",
+                "/ssd1/xiaoyichao/projects/baidu/aigc-operators/strategy/xiaoyichao_gpt/output/generate/生成了模型输出的query/个人简历-外包-20230618-yiyan.xlsx",
+            ]
+        },
+        {
+            "name": "Python: clearn_data",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
+        // {
+        //     "name": "Python: generate_sft",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "program": "${file}",
+        //     "console": "integratedTerminal",
+        //     "justMyCode": true,
+        //     "args": [
+        //         "--input_file",
+        //         "/ssd1/xiaoyichao/projects/baidu/aigc-operators/strategy/xiaoyichao_gpt/output/edit/处理好的SFT数据/res/output_AI编辑类-扩写-0608.jsonl",
+        //         "--sheet_name",
+        //         "/ssd1/xiaoyichao/projects/baidu/aigc-operators/strategy/xiaoyichao_gpt/output/edit/处理好的SFT数据/res/output_AI编辑类-扩写-0608.xlsx",
+        //         "--query_row",
+        //         "/ssd1/xiaoyichao/projects/baidu/aigc-operators/strategy/xiaoyichao_gpt/output/edit/处理好的SFT数据/res/output_AI编辑类-扩写-0608.jsonl",
+        //         "--target_row",
+        //         "/ssd1/xiaoyichao/projects/baidu/aigc-operators/strategy/xiaoyichao_gpt/output/edit/处理好的SFT数据/res/output_AI编辑类-扩写-0608.xlsx",
+        //     ]
+        // }, 
+        {
+            "name": "Python: markdown2json",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
+    ]
+}
