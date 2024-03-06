@@ -19,7 +19,7 @@ def total_params(model):
         int: 模型参数总数
     
     """
-    total_params = sum(p.numel() for p in merged_model.parameters())
+    total_params = sum(p.numel() for p in model.parameters())
     print(f"Total Parameters: {total_params}")
 
 
@@ -29,13 +29,13 @@ def modify_and_merge_models(model_path):
     print("Loading model...")
     model_head = AutoModel.from_pretrained(model_path)
     total_params(merged_model)
-    
+
     print("第一个模型加载完成")
     model_tail = AutoModel.from_pretrained(model_path)
     print("第二个模型加载完成")
     # 去掉前8层和后8层
-    modified_layers_head = model_head.layers[8:]  # 去掉前8层
-    modified_layers_tail = model_tail.layers[:-8]  # 去掉后8层
+    modified_layers_head = model_head.layers[16:]  # 去掉前8层
+    modified_layers_tail = model_tail.layers[:-16]  # 去掉后8层
 
     # 将剩下的层合并
     merged_layers = torch.nn.ModuleList(modified_layers_head + modified_layers_tail)

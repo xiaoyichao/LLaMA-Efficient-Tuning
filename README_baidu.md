@@ -114,6 +114,21 @@ CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
     --template default \
     --finetuning_type full
 
+
+#### API 服务
+
+```bash
+python src/api_demo.py \
+    --model_name_or_path /ssd3/xiaoyichao/models/solar/Qwen1.5-0.5B-Chat-solar \
+    --adapter_name_or_path path_to_checkpoint \
+    --template default \
+    --finetuning_type lora
+
+python src/api_demo.py \
+    --model_name_or_path /ssd3/xiaoyichao/models/solar/Qwen1.5-0.5B-Chat-solar \
+    --template default \
+    --finetuning_type full
+
 #### cli_demo
 CUDA_VISIBLE_DEVICES=5 python src/cli_demo.py \
     --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-0.5B-Chat-solar_20240306_163043/checkpoint-2670 \
