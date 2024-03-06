@@ -8,12 +8,28 @@ from transformers import AutoModel
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
+def total_params(model):
+    """
+    计算模型参数总数
+    
+    Args:
+        model (torch.nn.Module): 待计算参数总数的模型
+    
+    Returns:
+        int: 模型参数总数
+    
+    """
+    total_params = sum(p.numel() for p in merged_model.parameters())
+    print(f"Total Parameters: {total_params}")
+
 
 def modify_and_merge_models(model_path):
 
     # 加载预训练的模型
     print("Loading model...")
     model_head = AutoModel.from_pretrained(model_path)
+    total_params(merged_model)
+    
     print("第一个模型加载完成")
     model_tail = AutoModel.from_pretrained(model_path)
     print("第二个模型加载完成")
@@ -28,6 +44,9 @@ def modify_and_merge_models(model_path):
     print("创建一个新的模型以存储合并后的层, Loading model...")
     merged_model = AutoModel.from_pretrained(model_path)  # 重新加载一个模型作为基础
     merged_model.layers = merged_layers  # 用合并后的层替换
+
+    total_params(merged_model)
+    
 
     return merged_model
 

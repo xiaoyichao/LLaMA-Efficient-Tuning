@@ -110,15 +110,16 @@ CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
     --finetuning_type full
 
 CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
-    --model_name_or_path /ssd3/xiaoyichao/LLaMA-Efficient-Tuning/models/Qwen1.5-0.5B-Chat-1 \
+    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-0.5B-Chat_20240305_224455/tmp-checkpoint-763 \
     --template default \
     --finetuning_type full
 
 #### cli_demo
 CUDA_VISIBLE_DEVICES=5 python src/cli_demo.py \
-    --model_name_or_path /home/work/wenku_yq/xiaoyichao/blaze/Qwen-14B-Chat/checkpoints \
+    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-0.5B-Chat-solar_20240306_163043/checkpoint-2670 \
     --template default \
     --finetuning_type full
+
 
 #### excel 测试
 CUDA_VISIBLE_DEVICES=5 python src/chat_eval_excel.py \
