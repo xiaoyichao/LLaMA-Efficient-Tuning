@@ -2,11 +2,9 @@
 solar 模型的思路，集联模型
 '''
 
-import os
 import torch
 from transformers import AutoModel
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 def total_params(model):
     """
@@ -28,7 +26,7 @@ def modify_and_merge_models(model_path):
     # 加载预训练的模型
     print("Loading model...")
     model_head = AutoModel.from_pretrained(model_path)
-    total_params(merged_model)
+    total_params(model_head)
 
     print("第一个模型加载完成")
     model_tail = AutoModel.from_pretrained(model_path)
@@ -46,7 +44,6 @@ def modify_and_merge_models(model_path):
     merged_model.layers = merged_layers  # 用合并后的层替换
 
     total_params(merged_model)
-    
 
     return merged_model
 
@@ -67,8 +64,8 @@ def save_model(model, save_path):
 
 if __name__ == "__main__":
     # 模型路径
-    model_path = "models/Qwen1.5-0.5B-Chat"
-    save_path = "./models/solar"
+    model_path = "./models/Qwen1.5-72B-Chat"
+    save_path = "./models/Qwen1.5-113B-Chat"
 
     # 修改和合并模型
     merged_model = modify_and_merge_models(model_path)

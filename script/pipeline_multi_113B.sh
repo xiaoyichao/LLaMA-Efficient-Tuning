@@ -26,7 +26,7 @@ stages=(
 )
 
 datasets=(
-  "polish_4096"
+  "alpaca_gpt4_zh"
     # "novel_big"
 	#"CompleFilt"
     # "Instructed"
@@ -34,13 +34,13 @@ datasets=(
 )
 
 models=( 
-    # "ChatGLM3-6B"
+    "Qwen1.5-113B-Chat"
     # "ChatGLM3-6B-Base"
     # "Baichuan2-13B-Base"
     # "Baichuan2-13B-Chat"
     # "InternLM-20B"
     # "InternLM-Chat-20B"
-    "Qwen1.5-72B-Chat"
+    # "Qwen1.5-72B-Chat-AWQ"
     # "Qwen1.5-72B-Chat"
     # "Yi-34B"
     # "Yi-34B-Chat"
@@ -75,7 +75,7 @@ sft_types=(
 
 per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
 zero_stage=3
-num_train_epochs=16
+num_train_epochs=8
 
 ########## CONFIG ##########
 stage=${stages[@]:0:1}
@@ -153,7 +153,7 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --save_total_limit 1 \
     --save_only_model \
     --per_device_train_batch_size ${per_device_train_batch_size} \
-    --gradient_accumulation_steps 2 \
+    --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
     --logging_steps 0.001 \
     --learning_rate 3e-5 \
