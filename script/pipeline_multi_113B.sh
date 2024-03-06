@@ -137,6 +137,10 @@ esac
 # Multiple nodes ('nums_gpu' indicates num. of gpu per node): deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 4 --master_port=9997 src/train_bash.py \
 # Single Node: deepspeed --include=localhost:1,3,4,5,6,7 --master_port=9997 src/train_bash.py \
 # ,2,3,4,5,6,7
+#     --save_strategy epoch \
+#     --save_strategy steps \
+#     --save_steps 8 \
+
 TRAIN="""
 deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_port=9997 src/train_bash.py\
     --stage sft \
@@ -149,11 +153,12 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --logging_dir ${log_path}/${dataset}/${model}_${datetime}  \
     --overwrite_output_dir \
     --overwrite_cache \
-    --save_strategy epoch \
+    --save_strategy steps \
+    --save_steps 5000 \
     --save_total_limit 1 \
     --save_only_model \
     --per_device_train_batch_size ${per_device_train_batch_size} \
-    --gradient_accumulation_steps 1 \
+    --gradient_accumulation_steps 2 \
     --lr_scheduler_type cosine \
     --logging_steps 0.001 \
     --learning_rate 3e-5 \
