@@ -15,7 +15,7 @@ https://ku.baidu-int.com/knowledge/HFVrC7hq1Q/yKeL8Lljko/3QdgIc7cJj/6UApmq-gDEoa
 安装conda-pack
 conda install -c conda-forge conda-pack
 打包自己的环境
-conda pack -n qwen -o qwen.tar.gz
+conda pack -n qwen2 -o qwen.tar.gz
 
 ### 配置afs自己的文件夹的内容，用于paddle和开发机文件传输
 vim paddle/config.ini
@@ -68,6 +68,10 @@ wandb disabled
 export WANDB_MODE=offline
 wandb offline
 
+### 如何在开发机上，启动运行训练模型的脚本
+bash script/pipeline_local.sh
+
+
 ### 在paddle上，启动运行训练模型的脚本
 cd /root/paddlejob/workspace/env_run
 单节点
@@ -106,15 +110,16 @@ CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
     --finetuning_type full
 
 CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
-    --model_name_or_path /ssd3/xiaoyichao/LLaMA-Efficient-Tuning/models/Qwen1.5-0.5B-Chat-1 \
+    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-0.5B-Chat_20240305_224455/tmp-checkpoint-763 \
     --template default \
     --finetuning_type full
 
 #### cli_demo
 CUDA_VISIBLE_DEVICES=5 python src/cli_demo.py \
-    --model_name_or_path /home/work/wenku_yq/xiaoyichao/blaze/Qwen-14B-Chat/checkpoints \
+    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-0.5B-Chat-solar_20240306_163043/checkpoint-2670 \
     --template default \
     --finetuning_type full
+
 
 #### excel 测试
 CUDA_VISIBLE_DEVICES=5 python src/chat_eval_excel.py \

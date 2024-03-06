@@ -28,12 +28,14 @@ stages=(
 datasets=(
   # "polish"
   # "generate_novel_1600"
-  # "alpaca_zh"
-  "oaast_sft_zh"
+  "alpaca_gpt4_zh"
+  # "oaast_sft_zh"
 )
 
 models=( 
-    "Qwen1.5-0.5B"
+    # "Qwen1.5-0.5B-Chat"
+    "Qwen1.5-0.5B-Chat-solar"
+    # "Qwen1.5-0.5B"
     # "ChatGLM3-6B-Base"
     # "Baichuan2-13B-Base"
     # "Baichuan2-13B-Chat"
@@ -72,9 +74,9 @@ sft_types=(
     "full"
 )
 
-per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
+per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
 zero_stage=1
-num_train_epochs=1
+num_train_epochs=8
 
 ########## CONFIG ##########
 stage=${stages[@]:0:1}
@@ -93,10 +95,14 @@ if [ "$username" = "root" ]; then
     log_path="logs"
     archive_path="archive"
 else
-    model_path="/home/work/wenku_yq/DataVault/models"
-    checkpoint_path="/home/work/wenku_yq/${username}/blaze/checkpoints"
-    log_path="/home/users/${username}/logs"
+    model_path="/ssd3/xiaoyichao/LLaMA-Efficient-Tuning/models/solar"
+    checkpoint_path="checkpoints"
+    log_path="logs"
     archive_path="archive"
+    # model_path="/ssd3/xiaoyichao/LLaMA-Efficient-Tuning/models"
+    # checkpoint_path="/home/work/wenku_yq/${username}/blaze/checkpoints"
+    # log_path="/home/users/${username}/logs"
+    # archive_path="archive"
 fi
 
 case $model in
@@ -136,8 +142,13 @@ esac
 # Multiple nodes ('nums_gpu' indicates num. of gpu per node): deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 4 --master_port=9997 src/train_bash.py \
 # Single Node: deepspeed --include=localhost:1,3,4,5,6,7 --master_port=9997 src/train_bash.py \
 # 0,1,2,3,4,5,6,7
+#  --model_name_or_path ${model_path}/${model}\
+#     --save_strategy epoch \
+#     --save_strategy steps \
+#     --save_steps 8 \
+
 TRAIN="""
-deepspeed --include=localhost:1,2,7,6 --master_port=9997 src/train_bash.py \
+deepspeed --include=localhost:0,1,2,3,4,5,6,7 --master_port=9997 src/train_bash.py \
     --stage sft \
     --model_name_or_path ${model_path}/${model}\
     --do_train \
@@ -148,11 +159,12 @@ deepspeed --include=localhost:1,2,7,6 --master_port=9997 src/train_bash.py \
     --logging_dir ${log_path}/${dataset}/${model}_${datetime}  \
     --overwrite_output_dir \
     --overwrite_cache \
-    --save_strategy epoch \
-    --save_total_limit 2 \
-    --save_only_model \
+    --save_strategy steps \
+    --save_steps 8 \
+    --save_total_limit 1 \
+    --save_only_model true\
     --per_device_train_batch_size ${per_device_train_batch_size} \
-    --gradient_accumulation_steps 1 \
+    --gradient_accumulation_steps 4 \
     --lr_scheduler_type cosine \
     --logging_steps 0.001 \
     --learning_rate 3e-5 \
@@ -161,7 +173,7 @@ deepspeed --include=localhost:1,2,7,6 --master_port=9997 src/train_bash.py \
     --warmup_steps 100 \
     --plot_loss \
     --bf16 \
-    --preprocessing_num_workers 10 \
+    --preprocessing_num_workers 20 \
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 
