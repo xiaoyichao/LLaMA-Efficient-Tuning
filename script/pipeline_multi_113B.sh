@@ -73,7 +73,7 @@ sft_types=(
     "full"
 )
 
-per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
+per_device_train_batch_size=2   # MAX 2 FOR Yi-34B on A100
 zero_stage=3
 num_train_epochs=8
 
@@ -154,8 +154,8 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --overwrite_output_dir \
     --overwrite_cache \
     --save_strategy steps \
-    --save_steps 5000 \
-    --save_total_limit 1 \
+    --save_steps 128 \
+    --save_total_limit 2 \
     --save_only_model \
     --per_device_train_batch_size ${per_device_train_batch_size} \
     --gradient_accumulation_steps 2 \
