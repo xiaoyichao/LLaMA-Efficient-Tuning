@@ -26,9 +26,9 @@ stages=(
 )
 
 datasets=(
-  # "polish"
+  "polish_0307"
   # "generate_novel_1600"
-  "alpaca_gpt4_zh"
+  # "alpaca_gpt4_zh"
   # "oaast_sft_zh"
 )
 
@@ -75,8 +75,8 @@ sft_types=(
 )
 
 per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
-zero_stage=1
-num_train_epochs=8
+zero_stage=2
+num_train_epochs=4
 
 ########## CONFIG ##########
 stage=${stages[@]:0:1}
@@ -95,7 +95,7 @@ if [ "$username" = "root" ]; then
     log_path="logs"
     archive_path="archive"
 else
-    model_path="/home/work/wenku_yq/DataVault/models/Qwen1.5-0.5B-Chat"
+    model_path="/home/work/wenku_yq/DataVault/models/"
     checkpoint_path="checkpoints"
     log_path="logs"
     archive_path="archive"
@@ -148,7 +148,7 @@ esac
 #     --save_steps 8 \
 
 TRAIN="""
-deepspeed --include=localhost:0,1,2,3,4,5,6,7 --master_port=9997 src/train_bash.py \
+deepspeed --include=localhost:1,4,5,7 --master_port=9990 src/train_bash.py \
     --stage sft \
     --model_name_or_path ${model_path}/${model}\
     --do_train \
@@ -159,9 +159,8 @@ deepspeed --include=localhost:0,1,2,3,4,5,6,7 --master_port=9997 src/train_bash.
     --logging_dir ${log_path}/${dataset}/${model}_${datetime}  \
     --overwrite_output_dir \
     --overwrite_cache \
-    --save_strategy steps \
-    --save_steps 8 \
-    --save_total_limit 1 \
+    --save_strategy epoch \
+    --save_total_limit 3 \
     --save_only_model true\
     --per_device_train_batch_size ${per_device_train_batch_size} \
     --gradient_accumulation_steps 4 \

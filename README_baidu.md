@@ -15,7 +15,7 @@ https://ku.baidu-int.com/knowledge/HFVrC7hq1Q/yKeL8Lljko/3QdgIc7cJj/6UApmq-gDEoa
 安装conda-pack
 conda install -c conda-forge conda-pack
 打包自己的环境
-conda pack -n qwen2 -o qwen.tar.gz
+conda pack -n qwen15 -o qwen15.tar.gz
 
 ### 配置afs自己的文件夹的内容，用于paddle和开发机文件传输
 vim paddle/config.ini

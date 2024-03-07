@@ -1,6 +1,6 @@
 {
-  "novel_all": {
-    "file_name": "train/novel_all.json",
+  "polish_0307": {
+    "file_name": "train/polish_0307.json",
     "columns": {
       "prompt": "instruction",
       "query": "input",
