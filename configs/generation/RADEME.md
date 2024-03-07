@@ -1,0 +1,86 @@
+## 主要参数解释
+do_sample:
+
+true 表示在生成文本时使用采样方法。这意味着模型在生成每一个词时会根据概率分布随机选择，而不是简单地选择概率最高的词。这有助于生成更多样化和不那么可预测的文本。
+temperature:
+
+用于控制生成文本的随机性。温度设置为 1.0 表示标准的随机性。温度低于 1.0 会使模型倾向于选择更高概率的词，导致输出更加确定性；温度高于 1.0 则会增加随机性，使输出更加多样化。
+top_p:
+
+也称为 "nucleus sampling"，这是一种采样策略。top_p 设置为 0.7 意味着在每一步生成时，模型只考虑累计概率至少占总概率的 70% 的词。这有助于过滤掉那些极不可能的词，同时保留足够的随机性以生成有趣的文本。
+min_new_tokens 和 max_new_tokens:
+
+分别指定生成文本的最小和最大新词数（不包括输入的词数）。这些参数限制了输出文本的长度。
+length_penalty:
+
+用于调节长度惩罚，以便在生成更长或更短的文本时进行微调。length_penalty 设置为 0.1 表示轻微倾向于生成更长的文本。默认值通常为 1，即不应用长度惩罚。
+repetition_pentaly:
+
+应为 repetition_penalty，是一个打字错误。这个参数旨在减少重复，通过为已生成的词施加惩罚（当设置值大于 1.0 时）。1.05 表示轻微的惩罚，以防止生成重复的内容。
+no_repeat_ngram_size:
+
+设置为 25 表示模型在生成文本时不会生成长度达到 25 个词的重复 n-gram。这有助于增加文本的独特性和多样性。
+exponential_decay_length_penalty:
+
+一个由两个元素组成的数组，通常用于进一步调整长度惩罚。第一个元素指定从哪个点开始应用指数衰减，第二个元素指定衰减的速率。这里 [512, 1.0] 意味着从第 512 个词开始，长度惩罚将按照指数规律进行，但这里的衰减速率设置为 1.0 实际上意味着没有应用额外的衰减。
+
+
+
+## 全部可配置参数
+```
+{
+	'max_length': 20,
+	'max_new_tokens': 4096,
+	'min_length': 0,
+	'min_new_tokens': 200,
+	'early_stopping': False,
+	'max_time': None,
+	'do_sample': True,
+	'num_beams': 1,
+	'num_beam_groups': 1,
+	'penalty_alpha': None,
+	'use_cache': True,
+	'temperature': 1.0,
+	'top_k': 50,
+	'top_p': 0.7,
+	'typical_p': 1.0,
+	'epsilon_cutoff': 0.0,
+	'eta_cutoff': 0.0,
+	'diversity_penalty': 0.0,
+	'repetition_penalty': 1.1,
+	'encoder_repetition_penalty': 1.0,
+	'length_penalty': 0.1,
+	'no_repeat_ngram_size': 25,
+	'bad_words_ids': None,
+	'force_words_ids': None,
+	'renormalize_logits': False,
+	'constraints': None,
+	'forced_bos_token_id': None,
+	'forced_eos_token_id': None,
+	'remove_invalid_values': False,
+	'exponential_decay_length_penalty': [512, 1.0],
+	'suppress_tokens': None,
+	'begin_suppress_tokens': None,
+	'forced_decoder_ids': None,
+	'sequence_bias': None,
+	'guidance_scale': None,
+	'low_memory': None,
+	'num_return_sequences': 1,
+	'output_attentions': False,
+	'output_hidden_states': False,
+	'output_scores': False,
+	'return_dict_in_generate': False,
+	'pad_token_id': 151643,
+	'bos_token_id': 151643,
+	'eos_token_id': [151645, 151643],
+	'encoder_no_repeat_ngram_size': 0,
+	'decoder_start_token_id': None,
+	'num_assistant_tokens': 5,
+	'num_assistant_tokens_schedule': 'heuristic',
+	'prompt_lookup_num_tokens': None,
+	'generation_kwargs': {},
+	'_from_model_config': False,
+	'transformers_version': '4.37.2',
+	'repetition_pentaly': 1.05
+}
+```
