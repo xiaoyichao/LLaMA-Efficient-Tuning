@@ -8,20 +8,27 @@ from transformers.generation import GenerationConfig
 
 ''''
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python src/chat_eval_excel_polish.py \
-    --model_name_or_path  /root/paddlejob/workspace/env_run/afs/checkpoints/polish/Qwen1.5-72B-Chat_20240301_195111/checkpoint-1215/ \
+    --model_name_or_path  /ssd3/xiaoyichao/models/Qwen1.5-0.5B-Chat \
     --template default \
     --finetuning_type full
 '''
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
 
 INPUT_PATH = 'data/eval/polish/eval_data.xlsx'
 OUT_PATH = 'data/archive/prediction/polish/polish_eval.xlsx'
+GEN_CONFIG = 'configs/generation/polish.json'
 
 chat_model = ChatModel()
 
-chat_model.generating_args.max_length = 4096
-chat_model.generating_args.max_new_tokens = 4096
+gen_config = chat_model.model.generation_config.to_dict()
+gen_config.update(json.loads(open(GEN_CONFIG).read()))
+
+chat_model.generating_args = GenerationConfig(**gen_config)
+print("gen_config:", gen_config)
+
+# chat_model.generating_args.max_length = 4096
+# chat_model.generating_args.max_new_tokens = 4096
 
 
 def eval():
