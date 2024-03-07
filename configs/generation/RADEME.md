@@ -1,3 +1,4 @@
+## 主要参数解释
 do_sample:
 
 true 表示在生成文本时使用采样方法。这意味着模型在生成每一个词时会根据概率分布随机选择，而不是简单地选择概率最高的词。这有助于生成更多样化和不那么可预测的文本。
@@ -22,3 +23,64 @@ no_repeat_ngram_size:
 exponential_decay_length_penalty:
 
 一个由两个元素组成的数组，通常用于进一步调整长度惩罚。第一个元素指定从哪个点开始应用指数衰减，第二个元素指定衰减的速率。这里 [512, 1.0] 意味着从第 512 个词开始，长度惩罚将按照指数规律进行，但这里的衰减速率设置为 1.0 实际上意味着没有应用额外的衰减。
+
+
+
+## 全部可配置参数
+```
+{
+	'max_length': 20,
+	'max_new_tokens': 4096,
+	'min_length': 0,
+	'min_new_tokens': 200,
+	'early_stopping': False,
+	'max_time': None,
+	'do_sample': True,
+	'num_beams': 1,
+	'num_beam_groups': 1,
+	'penalty_alpha': None,
+	'use_cache': True,
+	'temperature': 1.0,
+	'top_k': 50,
+	'top_p': 0.7,
+	'typical_p': 1.0,
+	'epsilon_cutoff': 0.0,
+	'eta_cutoff': 0.0,
+	'diversity_penalty': 0.0,
+	'repetition_penalty': 1.1,
+	'encoder_repetition_penalty': 1.0,
+	'length_penalty': 0.1,
+	'no_repeat_ngram_size': 25,
+	'bad_words_ids': None,
+	'force_words_ids': None,
+	'renormalize_logits': False,
+	'constraints': None,
+	'forced_bos_token_id': None,
+	'forced_eos_token_id': None,
+	'remove_invalid_values': False,
+	'exponential_decay_length_penalty': [512, 1.0],
+	'suppress_tokens': None,
+	'begin_suppress_tokens': None,
+	'forced_decoder_ids': None,
+	'sequence_bias': None,
+	'guidance_scale': None,
+	'low_memory': None,
+	'num_return_sequences': 1,
+	'output_attentions': False,
+	'output_hidden_states': False,
+	'output_scores': False,
+	'return_dict_in_generate': False,
+	'pad_token_id': 151643,
+	'bos_token_id': 151643,
+	'eos_token_id': [151645, 151643],
+	'encoder_no_repeat_ngram_size': 0,
+	'decoder_start_token_id': None,
+	'num_assistant_tokens': 5,
+	'num_assistant_tokens_schedule': 'heuristic',
+	'prompt_lookup_num_tokens': None,
+	'generation_kwargs': {},
+	'_from_model_config': False,
+	'transformers_version': '4.37.2',
+	'repetition_pentaly': 1.05
+}
+```
