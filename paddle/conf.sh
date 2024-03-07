@@ -82,11 +82,11 @@ service cron start
 
 # 安装python依赖包
 
-pip install transformers==4.36.2
+pip install transformers==4.37.2
 pip install transformers-stream-generator           # Qwen
 pip install --no-deps triton==2.0.0
 pip install trl==0.7.6
-pip install peft==0.7.0
+pip install peft==0.8.2
 pip install wandb==0.16.2
 
 # 安装CUDA
