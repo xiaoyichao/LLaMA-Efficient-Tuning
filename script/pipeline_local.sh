@@ -33,8 +33,8 @@ datasets=(
 )
 
 models=( 
-    # "Qwen1.5-0.5B-Chat"
-    "Qwen1.5-0.5B-Chat-solar"
+    "Qwen1.5-0.5B-Chat"
+    # "Qwen1.5-0.5B-Chat-solar"
     # "Qwen1.5-0.5B"
     # "ChatGLM3-6B-Base"
     # "Baichuan2-13B-Base"
@@ -95,7 +95,7 @@ if [ "$username" = "root" ]; then
     log_path="logs"
     archive_path="archive"
 else
-    model_path="/ssd3/xiaoyichao/LLaMA-Efficient-Tuning/models/solar"
+    model_path="/home/work/wenku_yq/DataVault/models/Qwen1.5-0.5B-Chat"
     checkpoint_path="checkpoints"
     log_path="logs"
     archive_path="archive"
