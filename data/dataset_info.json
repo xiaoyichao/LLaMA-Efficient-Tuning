@@ -8,6 +8,15 @@
       "history": "history"
     }
   },
+  "short_story": {
+    "file_name": "train/short_story.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output",
+      "history": "history"
+    }
+  },
   "polish": {
     "file_name": "train/polish.jsonl"
   },

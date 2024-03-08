@@ -26,8 +26,8 @@ stages=(
 )
 
 datasets=(
-  # "polish_0307"
-  "oaast_sft_zh"
+  "short_story"
+  # "oaast_sft_zh_test"
   # "alpaca_gpt4_zh"
   # "oaast_sft_zh"
 )
@@ -74,9 +74,6 @@ sft_types=(
     "full"
 )
 
-per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
-zero_stage=1
-num_train_epochs=4
 
 ########## CONFIG ##########
 stage=${stages[@]:0:1}
@@ -149,10 +146,15 @@ esac
 #     --save_strategy steps \
 #     --save_steps 8 \
 
+per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
+zero_stage=1
+num_train_epochs=16
+
+
 TRAIN="""
-deepspeed --include=localhost:0,1,2,3,4,6,7 --master_port=9990 src/train_bash.py \
+deepspeed --include=localhost:1,2,3,4 --master_port=9990 src/train_bash.py \
     --stage sft \
-    --model_name_or_path checkpoints/oaast_sft_zh/Qwen1.5-0.5B-Chat_20240308_145131\
+    --model_name_or_path /ssd3/xiaoyichao/models/solar/Qwen1.5-0.5B-Chat-solar \
     --do_train \
     --finetuning_type ${sft_type} \
     --dataset ${dataset} \
@@ -174,7 +176,7 @@ deepspeed --include=localhost:0,1,2,3,4,6,7 --master_port=9990 src/train_bash.py
     --warmup_steps 100 \
     --plot_loss \
     --bf16 \
-    --preprocessing_num_workers 20 \
+    --preprocessing_num_workers 30 \
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 
@@ -186,103 +188,3 @@ if [ $((stage & 1)) -ne 0 ]; then
   echo "Finish [TRAIN]"
 fi
 
-
-# INFERENCE
-if [ $((stage & 2)) -ne 0 ]; then
-  echo "Start [INFER]"
-  gpu_id=0
-  for gene in $(find configs/generation/ -maxdepth 1 -type f); do
-  gen_type=$(basename ${gene} .json)
-  
-  if [ "$sft_type" = "lora" ]; then
-  INFER="""
-  mkdir -p ${archive_path}/prediction/${dataset}/${model}_${datetime}/${gen_type}/;
-  GEN_CONFIG=${gene} \
-  PROMPT_PATH="configs/template/${prompt}.r" \
-  EVAL_DATA="data/eval/${dataset}_eval.jsonl" \
-  OUT_PATH="${archive_path}/prediction/${dataset}/${model}_${datetime}/${gen_type}/" \
-  CUDA_VISIBLE_DEVICES=${gpu_id} python src/chat_iter.py \
-      --model_name_or_path ${model_path}/${model}/ \
-      --template ${template} \
-      --finetuning_type ${sft_type} \
-      --adapter_name_or_path ${checkpoint_path}/${dataset}/${model}_${datetime}/ \
-  """
-  else
-  INFER="""
-  mkdir -p ${archive_path}/prediction/${dataset}/${model}_${datetime}/${gen_type}/;
-  GEN_CONFIG=${gene} \
-  PROMPT_PATH="configs/template/${prompt}.r" \
-  EVAL_DATA="data/eval/${dataset}_eval.jsonl" \
-  OUT_PATH="${archive_path}/prediction/${dataset}/${model}_${datetime}/${gen_type}/" \
-  CUDA_VISIBLE_DEVICES=${gpu_id} python src/chat_iter.py \
-      --model_name_or_path ${checkpoint_path}/${dataset}/${model}_${datetime}/ \
-      --template ${template} \
-      --finetuning_type ${sft_type} \
-  """
-  fi
-
-  echo "INFER $(basename ${gene} .json) on GPU ${gpu_id}"
-  eval ${INFER} &
-  gpu_id=$((gpu_id+1))
-  if [ $gpu_id -eq 8 ]; then
-    gpu_id=0
-  fi
-  done
-  wait
-  echo ${INFER} > ${archive_path}/prediction/${dataset}/${model}_${datetime}/infer.sh
-  if [ "$username" = "root" ]; then
-    rsync -a ${archive_path}/prediction/${dataset}/${model}_${datetime} afs/archive/prediction/${dataset}
-  fi
-  echo "Finish [INFER]"
-fi
-
-# EVALUATION
-EVAL="""
-python src/auto_eval.py \
-    --robot ${robot} \
-    --task completion \
-    --prompt baidu/query.json \
-    --A ${archive_path}/completion/original \
-    --B ${archive_path}/prediction/${dataset}/${model}_${datetime} \
-    --output_dir ${archive_path}/evaluation/${dataset}/${model}_${datetime} \
-"""
-
-if [ $((stage & 4)) -ne 0 ]; then
-  echo "Start [EVAL]"
-  eval ${EVAL}
-  echo ${EVAL} > ${archive_path}/evaluation/${dataset}/${model}_${datetime}/eval.sh
-  echo "Finish [EVAL]"
-fi
-
-# LOOP
-# Run on paddlecloud only to keep GPU usage
-LOOP="""
-deepspeed --master_port=9996 src/train_bash.py \
-    --stage sft \
-    --model_name_or_path ${model_path}/Yi-34B-Chat \
-    --do_train \
-    --finetuning_type lora \
-    --dataset ${dataset} \
-    --template default \
-    --output_dir ${checkpoint_path}/Loop \
-    --overwrite_output_dir \
-    --overwrite_cache \
-    --per_device_train_batch_size 2 \
-    --gradient_accumulation_steps 1 \
-    --lr_scheduler_type cosine \
-    --logging_steps 100000000 \
-    --learning_rate 3e-5 \
-    --save_strategy no \
-    --num_train_epochs 1000000.0 \
-    --cutoff_len 3072 \
-    --plot_loss \
-    --bf16 \
-    --lora_target all \
-    --preprocessing_num_workers 4 \
-    --deepspeed configs/deepspeed/zero2-bf16.json \
-"""
-if [ $((stage & 8)) -ne 0 ]; then
-  eval ${LOOP}
-fi
-
-echo "All done!"

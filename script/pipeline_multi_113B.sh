@@ -26,11 +26,10 @@ stages=(
 )
 
 datasets=(
-  "alpaca_gpt4_zh"
-    # "novel_big"
-	#"CompleFilt"
-    # "Instructed"
-    # COMMENT UNUSED DATASETS, OR FIRST WILL BE USED
+  "novel_all"
+  # "alpaca_gpt4_zh"
+	# "oaast_sft_zh"
+
 )
 
 models=( 
@@ -41,7 +40,7 @@ models=(
     # "InternLM-20B"
     # "InternLM-Chat-20B"
     # "Qwen1.5-72B-Chat-AWQ"
-    # "Qwen1.5-72B-Chat"
+    # "Qwen1.5-14B"
     # "Yi-34B"
     # "Yi-34B-Chat"
 )
@@ -72,10 +71,6 @@ sft_types=(
     # "freeze"
     "full"
 )
-
-per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
-zero_stage=3
-num_train_epochs=2
 
 ########## CONFIG ##########
 stage=${stages[@]:0:1}
@@ -140,6 +135,15 @@ esac
 #     --save_strategy epoch \
 #     --save_strategy steps \
 #     --save_steps 8 \
+# 
+# checkpoints/alpaca_gpt4_zh/Qwen1.5-113B-Chat_20240307_225135/checkpoint-384
+# checkpoints/oaast_sft_zh/Qwen1.5-113B-Chat_20240308_140157
+#  ${model_path}/${model}
+
+per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
+zero_stage=3
+num_train_epochs=16
+
 
 TRAIN="""
 deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_port=9997 src/train_bash.py\
@@ -158,16 +162,16 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --save_total_limit 1 \
     --save_only_model \
     --per_device_train_batch_size ${per_device_train_batch_size} \
-    --gradient_accumulation_steps 2 \
+    --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
     --logging_steps 0.001 \
     --learning_rate 3e-5 \
     --num_train_epochs ${num_train_epochs}.00 \
-    --cutoff_len 4096 \
+    --cutoff_len 8192 \
     --warmup_steps 100 \
     --plot_loss \
     --bf16 \
-    --preprocessing_num_workers 20 \
+    --preprocessing_num_workers 60 \
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 \
