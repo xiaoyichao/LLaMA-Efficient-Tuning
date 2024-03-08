@@ -1,0 +1,231 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+
+        {
+            "name": "Python: 当前文件",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            // "cwd": "${fileDirname}",
+            "args": [
+               
+            ]
+        },
+        {
+            "name": "Python: generate_sft4baichuan",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--bot_type",
+                "eblite-resume-format",
+                "--output_path",
+                "data/模板简历",
+            ]
+        },
+
+        {
+            "name": "Python: resume_format",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--bot_type",
+                "eblite-resume-format",
+                "--output_path",
+                "data/模板简历",
+            ]
+        },
+        {
+            "name": "Python: get_image",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--input_path",
+                "/ssd1/xiaoyichao/projects/baidu/huyu_llm/huyu_llm_offline/data/ppt/ppt_query/1.txt",
+                "--output_path",
+                "/ssd1/xiaoyichao/projects/baidu/huyu_llm/huyu_llm_offline/data/pic_data/1.pkl",
+            ]
+        },
+        {
+            "name": "Python: single_talk_request_ensemble",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--input_file_path",
+                "data/novel/cleaned_data_bd2k_tb14_0123.xlsx",
+                "--task_type=章节关键点",
+                "--sheet_name",
+                "Sheet1",
+                "--columns",
+                "3",
+                "--begin_row",
+                "0",
+                "--bot_type",
+                "eb4",
+                "--output_dir_path",
+                "data/output/novel/"
+            ]
+        },
+        {
+            "name": "Python: single_talk_request_ensemble_eblite",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--input_file_path",
+                "../youbo_0914_33case/last.xlsx",
+                "--columns",
+                "0",
+                "--begin_row",
+                "0",
+                "--bot_type",
+                "eblite-sft-md",
+            ]
+        },
+        {
+            "name": "Python: json2excel",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--jsonl_data_path",
+                "/ssd1/xiaoyichao/projects/baidu/aigc-operators/strategy/xiaoyichao_gpt/output/generate/生成了模型输出的query/个人简历-外包-20230618-yiyan.json",
+                "--out_excel_file_path",
+                "/ssd1/xiaoyichao/projects/baidu/aigc-operators/strategy/xiaoyichao_gpt/output/generate/生成了模型输出的query/个人简历-外包-20230618-yiyan.xlsx",
+            ]
+        },
+        {
+            "name": "Python: clearn_data",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
+        {
+            "name": "Debug llama fatory",
+            "type": "python",
+            "request": "launch",
+            "justMyCode": true,
+            "program": "/home/users/xiaoyichao/.conda/envs/xyc/bin/deepspeed",
+            "args": [
+                "--include", "localhost:1,5",
+                "--master_port", "9997",
+                "src/train_bash.py",
+                "--stage", "sft",
+                "--model_name_or_path", "/home/work/wenku_yq/DataVault/models/Qwen-14B",
+                "--do_train",
+                "--finetuning_type", "full",
+                "--dataset", "novel",
+                "--template", "qwen",
+                "--output_dir", "/ssd3/xiaoyichao/baidu/personal-code/LLaMA-Factory_novel/logs/qwen",
+                "--logging_dir", "/ssd3/xiaoyichao/baidu/personal-code/LLaMA-Factory_novel/logs",
+                "--overwrite_output_dir",
+                "--overwrite_cache",
+                "--save_strategy", "epoch",
+                "--save_total_limit", "1",
+                "--save_only_model",
+                "--per_device_train_batch_size", "1",
+                "--gradient_accumulation_steps", "1",
+                "--lr_scheduler_type", "cosine",
+                "--logging_steps", "0.001",
+                "--learning_rate", "3e-5",
+                "--num_train_epochs", "10.00",
+                "--cutoff_len", "4096",
+                "--warmup_steps", "100",
+                "--plot_loss",
+                "--bf16",
+                "--preprocessing_num_workers", "4",
+                "--deepspeed", "configs/deepspeed/zero3-bf16.json",
+                "--torch_compile",
+                "--neftune_noise_alpha", "5.0"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        }
+        
+,
+        {
+            "name": "Debug DeepSpeed",
+            "type": "python",
+            "request": "launch",
+            "justMyCode": true,
+            "program": "/home/users/xiaoyichao/.conda/envs/xyc/bin/deepspeed",
+            "args": [
+                "--hostfile", "",  "--include", "localhost:0,1,2,3,6", "--master_port", "29501",
+                "fine-tune/fine-tune.py",
+                "--report_to", "none",
+                "--data_path", "fine-tune/data/扩写.json",
+                "--model_name_or_path", "/ssd1/share/Baichuan2-13B-Chat",
+                "--model_max_length", "4096",
+                "--output_dir",  "fine-tune/output/13B-Chat",
+                "--num_train_epochs", "1",
+                "--per_device_train_batch_size", "1",
+                "--gradient_accumulation_steps", "1",
+                "--save_strategy", "epoch",
+                "--learning_rate", "2e-5",
+                "--lr_scheduler_type", "constant",
+                "--adam_beta1", "0.9",
+                "--adam_beta2", "0.98",
+                "--adam_epsilon", "1e-8",
+                "--max_grad_norm", "1.0",
+                "--weight_decay", "1e-4",
+                "--warmup_ratio", "0.0",
+                "--logging_steps", "1",
+                "--gradient_checkpointing", "True",
+                "--deepspeed", "fine-tune/ds_config.json",
+                "--bf16", "True",
+                "--tf32", "True"
+               
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: novel chat",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--model_name_or_path",
+                "/home/work/wenku_yq/xiaoyichao/blaze/Qwen-14B_20240127_223952",
+                "--template",
+                "default",
+                "--finetuning_type",
+                "full",
+            ]
+        },
+        {
+            "name": "Python: markdown2json",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
+    ]
+}

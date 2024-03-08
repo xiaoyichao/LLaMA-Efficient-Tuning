@@ -23,6 +23,15 @@ logger = get_logger(__name__)
 
 
 def run_exp(args: Optional[Dict[str, Any]] = None, callbacks: Optional[List["TrainerCallback"]] = None):
+    """跑实验
+
+    Args:
+        args (Optional[Dict[str, Any]], optional): _description_. Defaults to None.
+        callbacks (Optional[List[&quot;TrainerCallback&quot;]], optional): _description_. Defaults to None.
+
+    Raises:
+        ValueError: _description_
+    """    
     model_args, data_args, training_args, finetuning_args, generating_args = get_train_args(args)
     callbacks = [LogCallback()] if callbacks is None else callbacks
 

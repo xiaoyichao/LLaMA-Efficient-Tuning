@@ -1,0 +1,20 @@
+// {
+//     "python.formatting.provider": "autopep8",
+//     "python.linting.flake8Enabled": true
+// }
+{
+    "python.formatting.provider": "autopep8",
+   //  "editor.formatOnSave": true,
+    "python.formatting.autopep8Args": ["--max-line-length", "120"],
+    "python.linting.flake8Enabled": false,
+    "terminal.integrated.env.osx": {
+        "PYTHONPATH": "${workspaceFolder}/",
+     },
+     "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${workspaceFolder}/",
+     },
+     "terminal.integrated.env.windows": {
+        "PYTHONPATH": "${workspaceFolder}/",
+     },
+     
+}
