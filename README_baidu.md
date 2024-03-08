@@ -110,7 +110,7 @@ CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
     --finetuning_type full
 
 CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
-    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-0.5B-Chat_20240305_224455/tmp-checkpoint-763 \
+    --model_name_or_path checkpoints/polish_0307/Qwen1.5-0.5B-Chat_20240308_075140/checkpoint-420 \
     --template default \
     --finetuning_type full
 

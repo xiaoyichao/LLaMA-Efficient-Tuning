@@ -26,8 +26,8 @@ stages=(
 )
 
 datasets=(
-  "polish_0307"
-  # "generate_novel_1600"
+  # "polish_0307"
+  "oaast_sft_zh"
   # "alpaca_gpt4_zh"
   # "oaast_sft_zh"
 )
@@ -75,7 +75,7 @@ sft_types=(
 )
 
 per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
-zero_stage=2
+zero_stage=1
 num_train_epochs=4
 
 ########## CONFIG ##########
@@ -148,9 +148,9 @@ esac
 #     --save_steps 8 \
 
 TRAIN="""
-deepspeed --include=localhost:1,4,5,7 --master_port=9990 src/train_bash.py \
+deepspeed --include=localhost:0,1,2,3,4,5,6,7 --master_port=9990 src/train_bash.py \
     --stage sft \
-    --model_name_or_path ${model_path}/${model}\
+    --model_name_or_path checkpoints/polish_0307/Qwen1.5-0.5B-Chat_20240308_075140/checkpoint-420\
     --do_train \
     --finetuning_type ${sft_type} \
     --dataset ${dataset} \
