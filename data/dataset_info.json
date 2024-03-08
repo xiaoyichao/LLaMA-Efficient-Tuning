@@ -8,8 +8,26 @@
       "history": "history"
     }
   },
-  "short_story": {
-    "file_name": "train/short_story.json",
+  "novel_all": {
+    "file_name": "train/novel_all.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output",
+      "history": "history"
+    }
+  },
+  "polish_his_0308": {
+    "file_name": "train/polish_his_0308.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output",
+      "history": "history"
+    }
+  },
+  "novel_all_240305": {
+    "file_name": "train/novel_all_240305.json",
     "columns": {
       "prompt": "instruction",
       "query": "input",

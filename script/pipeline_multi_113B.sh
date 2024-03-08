@@ -26,8 +26,8 @@ stages=(
 )
 
 datasets=(
-  "novel_all"
-  # "alpaca_gpt4_zh"
+  # "novel_all"
+  "novel_all_240305,alpaca_gpt4_zh,polish_his_0308"
 	# "oaast_sft_zh"
 
 )
@@ -139,8 +139,10 @@ esac
 # checkpoints/alpaca_gpt4_zh/Qwen1.5-113B-Chat_20240307_225135/checkpoint-384
 # checkpoints/oaast_sft_zh/Qwen1.5-113B-Chat_20240308_140157
 #  ${model_path}/${model}
+    # --streaming True\
+    # --max_steps 30000 \
 
-per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
+per_device_train_batch_size=2   # MAX 2 FOR Yi-34B on A100
 zero_stage=3
 num_train_epochs=16
 
@@ -171,10 +173,11 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --warmup_steps 100 \
     --plot_loss \
     --bf16 \
-    --preprocessing_num_workers 60 \
+    --preprocessing_num_workers 10 \
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 \
+    --flash_attn \
     --save_on_each_node True
 """
 if [ $((stage & 1)) -ne 0 ]; then
