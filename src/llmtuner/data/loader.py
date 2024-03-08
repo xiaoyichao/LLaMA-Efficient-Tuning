@@ -44,7 +44,7 @@ def load_single_dataset(
 
     elif dataset_attr.load_from == "file":
         data_files = []
-        local_path: str = os.path.join(data_args.dataset_dir, dataset_attr.dataset_name)
+        local_path = os.path.join(data_args.dataset_dir, dataset_attr.dataset_name)
         if os.path.isdir(local_path):  # is directory
             for file_name in os.listdir(local_path):
                 data_files.append(os.path.join(local_path, file_name))
@@ -155,6 +155,9 @@ def get_dataset(
             if data_args.streaming:
                 dataset = dataset.to_iterable_dataset()
             return dataset
+
+        if data_args.streaming:
+            raise ValueError("Turn off `streaming` when saving dataset to disk.")
 
     with training_args.main_process_first(desc="load dataset"):
         all_datasets = []
