@@ -142,15 +142,17 @@ esac
 # Multiple nodes ('nums_gpu' indicates num. of gpu per node): deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 4 --master_port=9997 src/train_bash.py \
 # Single Node: deepspeed --include=localhost:1,3,4,5,6,7 --master_port=9997 src/train_bash.py \
 # 0,1,2,3,4,5,6,7
+# checkpoints/oaast_sft_zh/Qwen1.5-0.5B-Chat_20240308_145131
+# /ssd3/xiaoyichao/models/solar/Qwen1.5-0.5B-Chat-solar
 #  --model_name_or_path ${model_path}/${model}\
 #     --save_strategy epoch \
 #     --save_strategy steps \
 #     --save_steps 8 \
 
 TRAIN="""
-deepspeed --include=localhost:0,1,2,3,4,5,6,7 --master_port=9990 src/train_bash.py \
+deepspeed --include=localhost:0,1,2,3,4,6,7 --master_port=9990 src/train_bash.py \
     --stage sft \
-    --model_name_or_path checkpoints/polish_0307/Qwen1.5-0.5B-Chat_20240308_075140/checkpoint-420\
+    --model_name_or_path checkpoints/oaast_sft_zh/Qwen1.5-0.5B-Chat_20240308_145131\
     --do_train \
     --finetuning_type ${sft_type} \
     --dataset ${dataset} \

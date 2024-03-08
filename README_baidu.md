@@ -104,13 +104,9 @@ cd /root/paddlejob/workspace/env_run
 如果是在开发机上测试，就换成开发机上项目的根目录。
 
 #### web_demo
-CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
-    --model_name_or_path /home/work/wenku_yq/xiaoyichao/blaze/checkpoint-147 \
-    --template default \
-    --finetuning_type full
 
 CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
-    --model_name_or_path checkpoints/polish_0307/Qwen1.5-0.5B-Chat_20240308_075140/checkpoint-420 \
+    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-113B-Chat_20240307_225135 \
     --template default \
     --finetuning_type full
 
@@ -123,18 +119,15 @@ python src/api_demo.py \
     --adapter_name_or_path path_to_checkpoint \
     --template default \
     --finetuning_type lora
-
-python src/api_demo.py \
-    --model_name_or_path /ssd3/xiaoyichao/models/solar/Qwen1.5-0.5B-Chat-solar \
-    --template default \
-    --finetuning_type full
+```
 
 #### cli_demo
-CUDA_VISIBLE_DEVICES=5 python src/cli_demo.py \
-    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-0.5B-Chat-solar_20240306_163043/checkpoint-2670 \
+```bash
+python src/cli_demo.py \
+    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-113B-Chat_20240307_225135 \
     --template default \
     --finetuning_type full
-
+```
 
 #### excel 测试
 CUDA_VISIBLE_DEVICES=5 python src/chat_eval_excel.py \

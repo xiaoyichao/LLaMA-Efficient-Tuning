@@ -1,11 +1,16 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 device = "cuda" # 加载模型的设备
 
+model_path = "checkpoints/oaast_sft_zh/Qwen1.5-0.5B-Chat_20240308_120258"
+
 model = AutoModelForCausalLM.from_pretrained(
-    "Qwen/Qwen1.5-14B-Chat-AWQ",
+    model_path,
     device_map="auto"
 )
-tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen1.5-14B-Chat-AWQ")
+tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 prompt = "给我介绍一下大型语言模型。"
 messages = [
@@ -28,3 +33,4 @@ generated_ids = [
 ]
 
 response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+print(response)
