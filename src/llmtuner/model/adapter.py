@@ -34,7 +34,8 @@ def init_adapter(
 
     if finetuning_args.finetuning_type == "full" and is_trainable:
         logger.info("Fine-tuning method: Full")
-        model = model.float()
+        if not finetuning_args.pure_bf16:
+            model = model.float()
 
     if finetuning_args.finetuning_type == "freeze" and is_trainable:
         logger.info("Fine-tuning method: Freeze")
@@ -78,14 +79,15 @@ def init_adapter(
 
         for name, param in model.named_parameters():
             if any(trainable_layer in name for trainable_layer in trainable_layers):
-                param.data = param.data.to(torch.float32)
+                if not finetuning_args.pure_bf16:
+                    param.data = param.data.to(torch.float32)
             else:
                 param.requires_grad_(False)
 
         logger.info("Set trainable layers: {}".format(",".join(map(str, trainable_layer_ids))))
 
     if finetuning_args.finetuning_type == "lora":
-        logger.info("Fine-tuning method: LoRA")
+        logger.info("Fine-tuning method: {}".format("DoRA" if finetuning_args.use_dora else "LoRA"))
         adapter_to_resume = None
 
         if model_args.adapter_name_or_path is not None:
@@ -123,6 +125,10 @@ def init_adapter(
             if finetuning_args.use_llama_pro:
                 target_modules = find_expanded_modules(model, target_modules, finetuning_args.num_layer_trainable)
 
+            if finetuning_args.use_dora:
+                if getattr(model, "quantization_method", None):
+                    raise ValueError("DoRA is currently not compatible with quantized models.")
+
             peft_kwargs = {
                 "r": finetuning_args.lora_rank,
                 "target_modules": target_modules,
@@ -141,12 +147,14 @@ def init_adapter(
                     task_type=TaskType.CAUSAL_LM,
                     inference_mode=False,
                     modules_to_save=finetuning_args.additional_target,
+                    use_dora=finetuning_args.use_dora,
                     **peft_kwargs,
                 )
                 model = get_peft_model(model, lora_config)
 
-        for param in filter(lambda p: p.requires_grad, model.parameters()):
-            param.data = param.data.to(torch.bfloat16 if finetuning_args.lora_bf16_mode else torch.float32)
+        if not finetuning_args.pure_bf16:
+            for param in filter(lambda p: p.requires_grad, model.parameters()):
+                param.data = param.data.to(torch.float32)
 
         if model_args.adapter_name_or_path is not None:
             logger.info("Loaded adapter(s): {}".format(",".join(model_args.adapter_name_or_path)))

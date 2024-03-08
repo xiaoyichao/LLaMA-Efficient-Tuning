@@ -22,7 +22,7 @@ def create_top() -> Dict[str, "Component"]:
 
     with gr.Row():
         finetuning_type = gr.Dropdown(choices=METHODS, value="lora", scale=1)
-        adapter_path = gr.Dropdown(multiselect=True, scale=5, allow_custom_value=True)
+        adapter_path = gr.Dropdown(multiselect=True, allow_custom_value=True, scale=5)
         refresh_btn = gr.Button(scale=1)
 
     with gr.Accordion(label="Advanced config", open=False) as advanced_tab:
@@ -34,9 +34,7 @@ def create_top() -> Dict[str, "Component"]:
 
     model_name.change(list_adapters, [model_name, finetuning_type], [adapter_path], queue=False).then(
         get_model_path, [model_name], [model_path], queue=False
-    ).then(
-        get_template, [model_name], [template], queue=False
-    )  # do not save config since the below line will save
+    ).then(get_template, [model_name], [template], queue=False)  # do not save config since the below line will save
 
     model_path.change(save_config, inputs=[lang, model_name, model_path], queue=False)
 
