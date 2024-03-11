@@ -79,6 +79,27 @@ bash script/pipeline_alone.sh
 多节点
 bash script/pipeline_multi.sh
 
+#### 预训练
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
+    --stage pt \
+    --do_train \
+    --model_name_or_path path_to_llama_model \
+    --dataset wiki_demo \
+    --finetuning_type full \
+    --output_dir path_to_pt_checkpoint \
+    --overwrite_cache \
+    --per_device_train_batch_size 1 \
+    --gradient_accumulation_steps 1 \
+    --lr_scheduler_type cosine \
+    --logging_steps 10 \
+    --save_steps 128 \
+    --learning_rate 5e-5 \
+    --num_train_epochs 3.0 \
+    --plot_loss \
+    --fp16
+```
 
 ### 如何修改为自己的数据
 首先，进入项目的根目录

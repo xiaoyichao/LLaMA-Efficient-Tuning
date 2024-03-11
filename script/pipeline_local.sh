@@ -180,8 +180,7 @@ deepspeed --include=localhost:1,2 --master_port=9990 src/train_bash.py \
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 \
-    --streaming \
-    --max_steps 10000 --dispatch_batches True
+
 """
 if [ $((stage & 1)) -ne 0 ]; then
   echo "Start [TRAIN]"

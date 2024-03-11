@@ -34,7 +34,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch \
     --fp16 \
     --streaming \
     --max_steps 10000 \
-    --split_batches True
+    --accelerator_config accelerator_config.json
 
     # --overwrite_output_dir True \
     # --dispatch_batches True \
