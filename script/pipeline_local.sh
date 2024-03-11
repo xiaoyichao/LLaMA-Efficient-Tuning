@@ -152,7 +152,7 @@ num_train_epochs=16
 
 
 TRAIN="""
-deepspeed --include=localhost:1,2,3,6 --master_port=9990 src/train_bash.py \
+deepspeed --include=localhost:1,2 --master_port=9990 src/train_bash.py \
     --stage sft \
     --model_name_or_path /ssd3/xiaoyichao/models/solar/Qwen1.5-0.5B-Chat-solar \
     --do_train \
@@ -181,7 +181,7 @@ deepspeed --include=localhost:1,2,3,6 --master_port=9990 src/train_bash.py \
     --torch_compile \
     --neftune_noise_alpha 5.0 \
     --streaming \
-    --max_steps 10000
+    --max_steps 10000 --dispatch_batches True
 """
 if [ $((stage & 1)) -ne 0 ]; then
   echo "Start [TRAIN]"

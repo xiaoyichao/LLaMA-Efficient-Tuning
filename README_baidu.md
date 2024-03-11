@@ -106,7 +106,7 @@ cd /root/paddlejob/workspace/env_run
 #### web_demo
 
 CUDA_VISIBLE_DEVICES=1 python src/web_demo.py \
-    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-113B-Chat_20240307_225135 \
+    --model_name_or_path  checkpoints/oaast_sft_zh/Qwen1.5-0.5B-Chat_20240308_160146 \
     --template default \
     --finetuning_type full
 

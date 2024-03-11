@@ -5,7 +5,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch \
     ../../src/train_bash.py \
     --stage sft \
     --do_train \
-    --model_name_or_path meta-llama/Llama-2-7b-hf \
+    --model_name_or_path /ssd3/xiaoyichao/models/Qwen1.5-0.5B-Chat \
     --dataset alpaca_gpt4_en,glaive_toolcall \
     --dataset_dir ../../data \
     --template default \

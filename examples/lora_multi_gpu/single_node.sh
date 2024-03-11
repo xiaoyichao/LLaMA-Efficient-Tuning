@@ -5,7 +5,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch \
     ../../src/train_bash.py \
     --stage sft \
     --do_train \
-    --model_name_or_path meta-llama/Llama-2-7b-hf \
+    --model_name_or_path /ssd3/xiaoyichao/models/Qwen1.5-0.5B-Chat \
     --dataset alpaca_gpt4_en,glaive_toolcall \
     --dataset_dir ../../data \
     --template default \
@@ -28,8 +28,14 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch \
     --load_best_model_at_end \
     --learning_rate 5e-5 \
     --num_train_epochs 3.0 \
-    --max_samples 3000 \
-    --val_size 0.1 \
+    --val_size 2 \
     --ddp_timeout 1800000 \
     --plot_loss \
-    --fp16
+    --fp16 \
+    --streaming \
+    --max_steps 10000 \
+    --split_batches True
+
+    # --overwrite_output_dir True \
+    # --dispatch_batches True \
+    # --split_batches True\

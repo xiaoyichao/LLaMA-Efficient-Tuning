@@ -26,8 +26,8 @@ stages=(
 )
 
 datasets=(
-  # "novel_all"
-  "novel_all_240305,alpaca_gpt4_zh,polish_his_0308"
+  "novel_all"
+  # "novel_all_240305,alpaca_gpt4_zh,polish_his_0308"
 	# "oaast_sft_zh"
 
 )
@@ -136,7 +136,7 @@ esac
 #     --save_strategy steps \
 #     --save_steps 8 \
 # 
-# checkpoints/alpaca_gpt4_zh/Qwen1.5-113B-Chat_20240307_225135/checkpoint-384
+# afs/Qwen1.5-113B-Chat_20240309_034638/checkpoint-640
 # checkpoints/oaast_sft_zh/Qwen1.5-113B-Chat_20240308_140157
 #  ${model_path}/${model}
     # --streaming True\
@@ -150,7 +150,7 @@ num_train_epochs=16
 TRAIN="""
 deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_port=9997 src/train_bash.py\
     --stage sft \
-    --model_name_or_path ${model_path}/${model}\
+    --model_name_or_path afs/Qwen1.5-113B-Chat_20240309_034638/checkpoint-640 \
     --do_train \
     --finetuning_type ${sft_type} \
     --dataset ${dataset} \
