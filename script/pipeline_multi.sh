@@ -110,10 +110,10 @@ case $model in
   "Baichuan2-13B-Chat")
     template="baichuan2"
     ;;
-  "Qwen-14B")
+  "Qwen1.5-72B-Chat")
     template="qwen"
     ;;
-  "Qwen-14B-Chat")
+  "Qwen1.5-72B")
     template="qwen"
     ;;
   "Yi-34B")
