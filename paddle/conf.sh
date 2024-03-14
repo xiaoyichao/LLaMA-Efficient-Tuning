@@ -47,8 +47,8 @@ tools=(
 
 # 模型文件列表
 models=(
-    "models/Qwen1.5-14B.tar"
-    # "models/Qwen1.5-72B-Chat-AWQ"
+    # "models/Qwen1.5-14B.tar"
+    "models/Qwen1.5-72B.tar"
     "models/Qwen1.5-72B-Chat.tar"
     # "models/Yi-34B-Chat.tar"
     # "models/Baichuan2-13B-Base.tar"
