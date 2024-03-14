@@ -26,7 +26,7 @@ stages=(
 )
 
 datasets=(
-  "novel_all"
+  "alpaca_gpt4_zh"
   # "novel_all_240305,alpaca_gpt4_zh,polish_his_0308"
 	# "oaast_sft_zh"
 

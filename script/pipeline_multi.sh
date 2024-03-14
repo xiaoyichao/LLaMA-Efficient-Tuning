@@ -26,7 +26,7 @@ stages=(
 )
 
 datasets=(
-  "polish_4096"
+  "alpaca_gpt4_zh"
     # "novel_big"
 	#"CompleFilt"
     # "Instructed"
@@ -75,7 +75,7 @@ sft_types=(
 
 per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
 zero_stage=3
-num_train_epochs=16
+num_train_epochs=1600
 
 ########## CONFIG ##########
 stage=${stages[@]:0:1}
@@ -110,10 +110,10 @@ case $model in
   "Baichuan2-13B-Chat")
     template="baichuan2"
     ;;
-  "Qwen1.5-72B-Chat")
+  "Qwen-14B")
     template="qwen"
     ;;
-  "Qwen1.5-72B")
+  "Qwen-14B-Chat")
     template="qwen"
     ;;
   "Yi-34B")
