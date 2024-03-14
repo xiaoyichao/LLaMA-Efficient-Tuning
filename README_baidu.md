@@ -85,16 +85,16 @@ bash script/pipeline_multi.sh
 CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --stage pt \
     --do_train \
-    --model_name_or_path path_to_llama_model \
-    --dataset wiki_demo \
+    --model_name_or_path /ssd3/xiaoyichao/models/Qwen1.5-0.5B-Chat \
+    --dataset novel_pt \
     --finetuning_type full \
-    --output_dir path_to_pt_checkpoint \
+    --output_dir /ssd3/xiaoyichao/models/pt \
     --overwrite_cache \
     --per_device_train_batch_size 1 \
     --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
     --logging_steps 10 \
-    --save_steps 128 \
+    --save_steps 1000 \
     --learning_rate 5e-5 \
     --num_train_epochs 3.0 \
     --plot_loss \
@@ -145,7 +145,7 @@ python src/api_demo.py \
 #### cli_demo
 ```bash
 python src/cli_demo.py \
-    --model_name_or_path checkpoints/alpaca_gpt4_zh/Qwen1.5-113B-Chat_20240307_225135 \
+    --model_name_or_path checkpoints/novel_all/Qwen1.5-113B-Chat_20240309_235644/checkpoint-1920 \
     --template default \
     --finetuning_type full
 ```
