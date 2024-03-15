@@ -99,16 +99,16 @@ case $model in
   "ChatGLM3-6B")
     template="chatglm3"
     ;;
-  "Baichuan2-13B-Base")
-    template="baichuan2"
-    ;;
-  "Baichuan2-13B-Chat")
-    template="baichuan2"
-    ;;
-  "Qwen-14B")
+  "Qwen1.5-113B-Chat")
     template="qwen"
     ;;
-  "Qwen-14B-Chat")
+  "Qwen1.5-113B")
+    template="qwen"
+    ;;
+  "Qwen1.5-72B")
+    template="qwen"
+    ;;
+  "Qwen1.5-72B-Chat")
     template="qwen"
     ;;
   "Yi-34B")

@@ -40,7 +40,7 @@ models=(
     # "Baichuan2-13B-Chat"
     # "InternLM-20B"
     # "InternLM-Chat-20B"
-    "Qwen1.5-72B-Chat"
+    "Qwen1.5-72B"
     # "Qwen1.5-72B-Chat"
     # "Yi-34B"
     # "Yi-34B-Chat"
@@ -110,10 +110,10 @@ case $model in
   "Baichuan2-13B-Chat")
     template="baichuan2"
     ;;
-  "Qwen-14B")
+  "Qwen1.5-72B")
     template="qwen"
     ;;
-  "Qwen-14B-Chat")
+  "Qwen1.5-72B-Chat")
     template="qwen"
     ;;
   "Yi-34B")

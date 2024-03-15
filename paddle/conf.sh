@@ -88,6 +88,7 @@ pip install --no-deps triton==2.0.0
 pip install trl==0.7.11
 pip install peft==0.9.0
 pip install wandb==0.16.2
+pip install accelerate==0.27.2
 
 # 安装CUDA
 cd /root/paddlejob/workspace/env_run/tools
