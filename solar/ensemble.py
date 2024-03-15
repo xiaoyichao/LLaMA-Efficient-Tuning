@@ -31,9 +31,9 @@ def modify_and_merge_models(model_path):
     print("第一个模型加载完成")
     model_tail = AutoModel.from_pretrained(model_path)
     print("第二个模型加载完成")
-    # 去掉前8层和后8层
-    modified_layers_head = model_head.layers[16:]  # 去掉前8层
-    modified_layers_tail = model_tail.layers[:-16]  # 去掉后8层
+    # 去掉前16层和后16层
+    modified_layers_tail = model_head.layers[16:]  # 去掉前16层
+    modified_layers_head = model_tail.layers[:-16]  # 去掉后16层
 
     # 将剩下的层合并
     merged_layers = torch.nn.ModuleList(modified_layers_head + modified_layers_tail)
@@ -64,8 +64,8 @@ def save_model(model, save_path):
 
 if __name__ == "__main__":
     # 模型路径
-    model_path = "./models/Qwen1.5-72B-Chat"
-    save_path = "./models/Qwen1.5-113B-Chat"
+    model_path = "./models/Qwen1.5-72B"
+    save_path = "./models/Qwen1.5-113B"
 
     # 修改和合并模型
     merged_model = modify_and_merge_models(model_path)
