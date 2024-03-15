@@ -1,6 +1,6 @@
 {
-  "polish_0307": {
-    "file_name": "train/polish_0307.json",
+  "novel_his_8192_xiao": {
+    "file_name": "train/novel_his_8192_xiao.json",
     "columns": {
       "prompt": "instruction",
       "query": "input",

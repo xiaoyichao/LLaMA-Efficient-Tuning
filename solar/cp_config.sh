@@ -1,8 +1,9 @@
 #!/bin/bash
+cd /root/paddlejob/workspace/env_run/models
 
-cat << EOF > ./Qwen1.5-113B-Chat/config.json
+cat << EOF > ./Qwen1.5-113B/config.json
 {
-  "_name_or_path": "./models/Qwen1.5-113B-Chat",
+  "_name_or_path": "./models/Qwen1.5-113B",
   "architectures": [
     "Qwen2Model"
   ],
@@ -31,10 +32,10 @@ cat << EOF > ./Qwen1.5-113B-Chat/config.json
 }
 EOF
 
-cp ./Qwen1.5-72B-Chat/configuration.json ./Qwen1.5-113B-Chat/
-cp ./Qwen1.5-72B-Chat/generation_config.json ./Qwen1.5-113B-Chat/
-cp ./Qwen1.5-72B-Chat/merges.txt ./Qwen1.5-113B-Chat/
-cp ./Qwen1.5-72B-Chat/README.md ./Qwen1.5-113B-Chat/
-cp ./Qwen1.5-72B-Chat/tokenizer_config.json ./Qwen1.5-113B-Chat/
-cp ./Qwen1.5-72B-Chat/tokenizer.json ./Qwen1.5-113B-Chat/
-cp ./Qwen1.5-72B-Chat/vocab.json ./Qwen1.5-113B-Chat/
+cp ./Qwen1.5-72B/configuration.json ./Qwen1.5-113B/
+cp ./Qwen1.5-72B/generation_config.json ./Qwen1.5-113B/
+cp ./Qwen1.5-72B/merges.txt ./Qwen1.5-113B/
+cp ./Qwen1.5-72B/README.md ./Qwen1.5-113B/
+cp ./Qwen1.5-72B/tokenizer_config.json ./Qwen1.5-113B/
+cp ./Qwen1.5-72B/tokenizer.json ./Qwen1.5-113B/
+cp ./Qwen1.5-72B/vocab.json ./Qwen1.5-113B/

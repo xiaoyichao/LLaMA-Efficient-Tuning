@@ -26,9 +26,9 @@ stages=(
 )
 
 datasets=(
-  # "oaast_sft_zh"
+  "novel_his_8192_xiao"
   # "oaast_sft_zh_test"
-  "alpaca_gpt4_zh"
+  # "alpaca_gpt4_zh"
   # "oaast_sft_zh"
 )
 
@@ -103,8 +103,8 @@ else
 fi
 
 case $model in
-  "ChatGLM3-6B")
-    template="chatglm3"
+  "Qwen1.5-0.5B-Chat")
+    template="default"
     ;;
   "Baichuan2-13B-Base")
     template="baichuan2"
@@ -112,10 +112,10 @@ case $model in
   "Baichuan2-13B-Chat")
     template="baichuan2"
     ;;
-  "Qwen-14B")
+  "Qwen1.5-72B-Chat")
     template="qwen"
     ;;
-  "Qwen-14B-Chat")
+  "Qwen1.5-72B")
     template="qwen"
     ;;
   "Yi-34B")
@@ -154,7 +154,7 @@ num_train_epochs=16
 TRAIN="""
 deepspeed --include=localhost:1,2 --master_port=9990 src/train_bash.py \
     --stage sft \
-    --model_name_or_path /ssd3/xiaoyichao/models/solar/Qwen1.5-0.5B-Chat-solar \
+    --model_name_or_path ${model_path}/${model}\
     --do_train \
     --finetuning_type ${sft_type} \
     --dataset ${dataset} \

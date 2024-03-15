@@ -26,8 +26,8 @@ stages=(
 )
 
 datasets=(
-  "alpaca_gpt4_zh"
-    # "novel_big"
+#   "polish"
+    "novel_his"
 	#"CompleFilt"
     # "Instructed"
     # COMMENT UNUSED DATASETS, OR FIRST WILL BE USED
@@ -73,9 +73,9 @@ sft_types=(
     "full"
 )
 
-per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
+per_device_train_batch_size=2   # MAX 2 FOR Yi-34B on A100
 zero_stage=3
-num_train_epochs=1600
+num_train_epochs=10
 
 ########## CONFIG ##########
 stage=${stages[@]:0:1}
@@ -110,11 +110,11 @@ case $model in
   "Baichuan2-13B-Chat")
     template="baichuan2"
     ;;
-  "Qwen1.5-72B")
-    template="qwen"
-    ;;
   "Qwen1.5-72B-Chat")
     template="qwen"
+    ;;
+  "Qwen1.5-72B")
+    template="default"
     ;;
   "Yi-34B")
     template="yi"
@@ -150,7 +150,7 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --overwrite_output_dir \
     --overwrite_cache \
     --save_strategy epoch \
-    --save_total_limit 1 \
+    --save_total_limit 10 \
     --save_only_model \
     --per_device_train_batch_size ${per_device_train_batch_size} \
     --gradient_accumulation_steps 2 \
@@ -158,11 +158,11 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --logging_steps 0.001 \
     --learning_rate 3e-5 \
     --num_train_epochs ${num_train_epochs}.00 \
-    --cutoff_len 4096 \
+    --cutoff_len 8192 \
     --warmup_steps 100 \
     --plot_loss \
     --bf16 \
-    --preprocessing_num_workers 20 \
+    --preprocessing_num_workers 4 \
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 \
