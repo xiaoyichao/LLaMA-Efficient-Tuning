@@ -1,5 +1,16 @@
 [
   {
+    "instruction": "谢谢",
+    "input": "",
+    "output": "不客气！祝您晚宴愉快！",
+    "history": [
+      [
+        "我需要举办6人晚宴。你能帮我推荐三道不包括坚果或海鲜的菜吗？",
+        "好的，我将为您推荐三道不包含坚果或海鲜的菜。这三道菜都是容易做且好吃的家常菜，希望您能满意。\n1. 青椒土豆丝\n2. 西红柿炒鸡蛋\n3. 土豆炖豆角"
+      ]
+    ]
+  },
+  {
     "instruction": "布洛芬和对乙酰氨基酚的区别是？",
     "input": "",
     "output": "根据维基百科，\n布洛芬（英语：Ibuprofen），是一种非类固醇消炎药（NSAID），常用来止痛、退烧、消炎。可用于治疗经痛、偏头痛，和类风湿性关节炎。\n对乙酰氨基酚（英语：Acetaminophen、Paracetamol、简称：APAP），又称乙酰胺酚、扑热息痛，是一种用于治疗疼痛与发烧的药物。\n这是两种不同的药，详情可以参考维基百科.\n参考链接：\n布洛芬：https://zh.wikipedia.org/wiki/%E5%B8%83%E6%B4%9B%E8%8A%AC\n对乙酰氨基酚：https://zh.wikipedia.org/zh-hans/%E5%AF%B9%E4%B9%99%E9%85%B0%E6%B0%A8%E5%9F%BA%E9%85%9A",
@@ -58,17 +69,6 @@
     "input": "",
     "output": "读取一个 JSONL 文件的 Python 代码如下：\n\n```python\nimport json\n\nfilename = \"example.jsonl\"\n\nwith open(filename, \"r\") as file:\n    for line in file:\n        data = json.loads(line)\n        # Do something with the data\n        print(data)\n```\n\n在这段代码中，我们使用 `json.loads` 函数将每一行读取的 JSON 字符串转换为一个 Python 字典。然后，您可以使用该字典进行您想要的操作。",
     "history": []
-  },
-  {
-    "instruction": "谢谢",
-    "input": "",
-    "output": "不客气！祝您晚宴愉快！",
-    "history": [
-      [
-        "我需要举办6人晚宴。你能帮我推荐三道不包括坚果或海鲜的菜吗？",
-        "好的，我将为您推荐三道不包含坚果或海鲜的菜。这三道菜都是容易做且好吃的家常菜，希望您能满意。\n1. 青椒土豆丝\n2. 西红柿炒鸡蛋\n3. 土豆炖豆角"
-      ]
-    ]
   },
   {
     "instruction": "谢谢",

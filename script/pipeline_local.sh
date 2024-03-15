@@ -152,7 +152,7 @@ num_train_epochs=16
 
 
 TRAIN="""
-deepspeed --include=localhost:1,2 --master_port=9990 src/train_bash.py \
+deepspeed --include=localhost:4,7 --master_port=9990 src/train_bash.py \
     --stage sft \
     --model_name_or_path ${model_path}/${model}\
     --do_train \

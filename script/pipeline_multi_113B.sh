@@ -26,14 +26,14 @@ stages=(
 )
 
 datasets=(
-  "alpaca_gpt4_zh"
-  # "novel_all_240305,alpaca_gpt4_zh,polish_his_0308"
+  # "alpaca_gpt4_zh"
+  "novel_his_8192_xiao"
 	# "oaast_sft_zh"
 
 )
 
 models=( 
-    "Qwen1.5-113B-Chat"
+    "Qwen1.5-113B"
     # "ChatGLM3-6B-Base"
     # "Baichuan2-13B-Base"
     # "Baichuan2-13B-Chat"
@@ -103,7 +103,7 @@ case $model in
     template="qwen"
     ;;
   "Qwen1.5-113B")
-    template="qwen"
+    template="default"
     ;;
   "Qwen1.5-72B")
     template="qwen"
@@ -150,7 +150,7 @@ num_train_epochs=16
 TRAIN="""
 deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_port=9997 src/train_bash.py\
     --stage sft \
-    --model_name_or_path afs/Qwen1.5-113B-Chat_20240309_034638/checkpoint-640 \
+    --model_name_or_path ${model_path}/${model} \
     --do_train \
     --finetuning_type ${sft_type} \
     --dataset ${dataset} \
@@ -160,8 +160,8 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --overwrite_output_dir \
     --overwrite_cache \
     --save_strategy steps \
-    --save_steps 128 \
-    --save_total_limit 1 \
+    --save_steps 100 \
+    --save_total_limit 4 \
     --save_only_model \
     --per_device_train_batch_size ${per_device_train_batch_size} \
     --gradient_accumulation_steps 1 \
@@ -173,7 +173,7 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --warmup_steps 100 \
     --plot_loss \
     --bf16 \
-    --preprocessing_num_workers 10 \
+    --preprocessing_num_workers 30 \
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 \
@@ -188,106 +188,6 @@ if [ $((stage & 1)) -ne 0 ]; then
 fi
 
 
-# INFERENCE
-if [ $((stage & 2)) -ne 0 ]; then
-  echo "Start [INFER]"
-  gpu_id=0
-  for gene in $(find configs/generation/ -maxdepth 1 -type f); do
-  gen_type=$(basename ${gene} .json)
-  
-  if [ "$sft_type" = "lora" ]; then
-  INFER="""
-  mkdir -p ${archive_path}/prediction/${dataset}/${model}_${datetime}/${gen_type}/;
-  GEN_CONFIG=${gene} \
-  PROMPT_PATH="configs/template/${prompt}.r" \
-  EVAL_DATA="data/eval/${dataset}_eval.jsonl" \
-  OUT_PATH="${archive_path}/prediction/${dataset}/${model}_${datetime}/${gen_type}/" \
-  CUDA_VISIBLE_DEVICES=${gpu_id} python src/chat_iter.py \
-      --model_name_or_path ${model_path}/${model}/ \
-      --template ${template} \
-      --finetuning_type ${sft_type} \
-      --adapter_name_or_path ${checkpoint_path}/${dataset}/${model}_${datetime}/ \
-  """
-  else
-  INFER="""
-  mkdir -p ${archive_path}/prediction/${dataset}/${model}_${datetime}/${gen_type}/;
-  GEN_CONFIG=${gene} \
-  PROMPT_PATH="configs/template/${prompt}.r" \
-  EVAL_DATA="data/eval/${dataset}_eval.jsonl" \
-  OUT_PATH="${archive_path}/prediction/${dataset}/${model}_${datetime}/${gen_type}/" \
-  CUDA_VISIBLE_DEVICES=${gpu_id} python src/chat_iter.py \
-      --model_name_or_path ${checkpoint_path}/${dataset}/${model}_${datetime}/ \
-      --template ${template} \
-      --finetuning_type ${sft_type} \
-  """
-  fi
 
-  echo "INFER $(basename ${gene} .json) on GPU ${gpu_id}"
-  eval ${INFER} &
-  gpu_id=$((gpu_id+1))
-  if [ $gpu_id -eq 8 ]; then
-    gpu_id=0
-  fi
-  done
-  wait
-  echo ${INFER} > ${archive_path}/prediction/${dataset}/${model}_${datetime}/infer.sh
-  if [ "$username" = "root" ]; then
-    rsync -a ${archive_path}/prediction/${dataset}/${model}_${datetime} afs/archive/prediction/${dataset}
-  fi
-  echo "Finish [INFER]"
-fi
-
-# EVALUATION
-EVAL="""
-python src/auto_eval.py \
-    --robot ${robot} \
-    --task completion \
-    --prompt baidu/query.json \
-    --A ${archive_path}/completion/original \
-    --B ${archive_path}/prediction/${dataset}/${model}_${datetime} \
-    --output_dir ${archive_path}/evaluation/${dataset}/${model}_${datetime} \
-"""
-
-if [ $((stage & 4)) -ne 0 ]; then
-  echo "Start [EVAL]"
-  eval ${EVAL}
-  echo ${EVAL} > ${archive_path}/evaluation/${dataset}/${model}_${datetime}/eval.sh
-  echo "Finish [EVAL]"
-fi
-
-# LOOP
-# Run on paddlecloud only to keep GPU usage
-LOOP="""
-deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_port=9997 src/train_bash.py\
-    --stage sft \
-    --model_name_or_path ${model_path}/Qwen-14B-Chat\
-    --do_train \
-    --finetuning_type ${sft_type} \
-    --dataset ${dataset} \
-    --template ${template} \
-    --output_dir ${checkpoint_path}/Loop \
-    --logging_dir ${log_path}/${dataset}/${model}_${datetime}  \
-    --overwrite_output_dir \
-    --overwrite_cache \
-    --save_strategy epoch \
-    --save_total_limit 1 \
-    --save_only_model \
-    --per_device_train_batch_size 1 \
-    --gradient_accumulation_steps 1 \
-    --lr_scheduler_type cosine \
-    --logging_steps 0.001 \
-    --learning_rate 3e-5 \
-    --num_train_epochs 10000000.0 \
-    --cutoff_len 4096 \
-    --warmup_steps 100 \
-    --plot_loss \
-    --bf16 \
-    --preprocessing_num_workers 4 \
-    --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
-
-"""
-if [ $((stage & 8)) -ne 0 ]; then
-  eval ${LOOP}
-fi
 
 echo "All done!"
