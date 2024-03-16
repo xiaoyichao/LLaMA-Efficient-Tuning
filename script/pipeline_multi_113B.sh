@@ -33,7 +33,7 @@ datasets=(
 )
 
 models=( 
-    "Qwen1.5-113B"
+    "Qwen1.5-113B-Chat"
     # "ChatGLM3-6B-Base"
     # "Baichuan2-13B-Base"
     # "Baichuan2-13B-Chat"
@@ -142,7 +142,7 @@ esac
     # --streaming True\
     # --max_steps 30000 \
 
-per_device_train_batch_size=2   # MAX 2 FOR Yi-34B on A100
+per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
 zero_stage=3
 num_train_epochs=16
 
