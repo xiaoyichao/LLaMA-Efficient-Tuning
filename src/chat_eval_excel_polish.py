@@ -21,11 +21,10 @@ GEN_CONFIG = 'configs/generation/polish.json'
 
 chat_model = ChatModel()
 
-gen_config = chat_model.model.generation_config.to_dict()
+gen_config = chat_model.engine.generating_args
 gen_config.update(json.loads(open(GEN_CONFIG).read()))
+print("gen_config:", chat_model.engine.generating_args)
 
-chat_model.generating_args = GenerationConfig(**gen_config)
-print("gen_config:", gen_config)
 
 # chat_model.generating_args.max_length = 4096
 # chat_model.generating_args.max_new_tokens = 4096

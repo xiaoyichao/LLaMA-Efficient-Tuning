@@ -64,8 +64,8 @@ def save_model(model, save_path):
 
 if __name__ == "__main__":
     # 模型路径
-    model_path = "./models/Qwen1.5-72B"
-    save_path = "./models/Qwen1.5-113B"
+    model_path = "./models/Qwen1.5-72B-Chat"
+    save_path = "./models/Qwen1.5-113B-Chat"
 
     # 修改和合并模型
     merged_model = modify_and_merge_models(model_path)

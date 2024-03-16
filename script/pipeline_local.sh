@@ -26,7 +26,7 @@ stages=(
 )
 
 datasets=(
-  "novel_his_8192_xiao"
+  "novel_his_8192_xiao2"
   # "oaast_sft_zh_test"
   # "alpaca_gpt4_zh"
   # "oaast_sft_zh"
@@ -104,7 +104,7 @@ fi
 
 case $model in
   "Qwen1.5-0.5B-Chat")
-    template="default"
+    template="qwen"
     ;;
   "Baichuan2-13B-Base")
     template="baichuan2"
@@ -139,20 +139,20 @@ esac
 # Multiple nodes ('nums_gpu' indicates num. of gpu per node): deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 4 --master_port=9997 src/train_bash.py \
 # Single Node: deepspeed --include=localhost:1,3,4,5,6,7 --master_port=9997 src/train_bash.py \
 # 0,1,2,3,4,5,6,7
-# checkpoints/oaast_sft_zh/Qwen1.5-0.5B-Chat_20240308_145131
+#  --resume_from_checkpoint checkpoints/novel_his_8192_xiao2/Qwen1.5-0.5B-Chat_20240316_165037
 # /ssd3/xiaoyichao/models/solar/Qwen1.5-0.5B-Chat-solar
 #  --model_name_or_path ${model_path}/${model}\
 #     --save_strategy epoch \
 #     --save_strategy steps \
 #     --save_steps 8 \
 
-per_device_train_batch_size=4   # MAX 2 FOR Yi-34B on A100
+per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
 zero_stage=1
 num_train_epochs=16
 
 
 TRAIN="""
-deepspeed --include=localhost:4,7 --master_port=9990 src/train_bash.py \
+deepspeed --include=localhost:0,2 --master_port=9990 src/train_bash.py \
     --stage sft \
     --model_name_or_path ${model_path}/${model}\
     --do_train \
@@ -163,11 +163,12 @@ deepspeed --include=localhost:4,7 --master_port=9990 src/train_bash.py \
     --logging_dir ${log_path}/${dataset}/${model}_${datetime}  \
     --overwrite_output_dir \
     --overwrite_cache \
-    --save_strategy epoch \
+    --save_strategy steps \
+    --save_steps 8 \
     --save_total_limit 3 \
     --save_only_model true\
     --per_device_train_batch_size ${per_device_train_batch_size} \
-    --gradient_accumulation_steps 4 \
+    --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
     --logging_steps 0.001 \
     --learning_rate 3e-5 \
@@ -180,6 +181,7 @@ deepspeed --include=localhost:4,7 --master_port=9990 src/train_bash.py \
     --deepspeed configs/deepspeed/zero${zero_stage}-bf16.json \
     --torch_compile \
     --neftune_noise_alpha 5.0 \
+
 
 """
 if [ $((stage & 1)) -ne 0 ]; then

@@ -51,7 +51,6 @@ http://paddlecloud.baidu-int.com/paddle
 paddle 机器上下载模型
 cd /root/paddlejob/workspace/env_run/models
 wget yq02-bcc-sci-a800-25525-001.bcc-yq02.baidu.com:8048/DataVault/models/Qwen1.5-72B-Chat.tar
-wget 10.96.202.13:8048/DataVault/models/Qwen1.5-72B-Chat.tar
 
 tar -xvf Qwen1.5-72B-Chat.tar
 
@@ -187,7 +186,7 @@ qwen templete 的数据的修改
 vllm的参数和安装（--infer_backend vllm）
 
 qwen templete 的修改
-resume的实现
+resume的实现(在每个节点都保存checkpoints) transformers==4.36.0才不会报错FileNotFoundError: [Errno 2] No such file or directory: 'checkpoints/novel_his_8192_xiao2/Qwen1.5-0.5B-Chat_20240316_165037/trainer_state.json，但是qwen1.5要求transformers>=4.37.2
 流式数据的脚本实现
 
 

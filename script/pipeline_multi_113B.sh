@@ -27,7 +27,7 @@ stages=(
 
 datasets=(
   # "alpaca_gpt4_zh"
-  "novel_his_8192_xiao"
+  "novel_his_8192_xiao2"
 	# "oaast_sft_zh"
 
 )
@@ -103,7 +103,7 @@ case $model in
     template="qwen"
     ;;
   "Qwen1.5-113B")
-    template="default"
+    template="qwen"
     ;;
   "Qwen1.5-72B")
     template="qwen"
@@ -170,7 +170,7 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --learning_rate 3e-5 \
     --num_train_epochs ${num_train_epochs}.00 \
     --cutoff_len 8192 \
-    --warmup_steps 100 \
+    --warmup_steps 120 \
     --plot_loss \
     --bf16 \
     --preprocessing_num_workers 30 \

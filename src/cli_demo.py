@@ -24,6 +24,11 @@ except ImportError:
 
 def main():
     chat_model = ChatModel()
+
+    gen_config = chat_model.engine.generating_args
+    gen_config.update(json.loads(open(GEN_CONFIG).read()))
+    print("gen_config:", chat_model.engine.generating_args)
+    
     messages = []
     print("Welcome to the CLI application, use `clear` to remove the history, use `exit` to exit the application.")
 
