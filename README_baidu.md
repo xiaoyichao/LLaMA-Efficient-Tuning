@@ -181,10 +181,9 @@ CUDA_VISIBLE_DEVICES=5 python src/chat_eval_excel.py \
 10.96.202.21: 此时，他正在接待一个打离婚官司的女人，对方对婚姻法一窍不通，简直像掉进了“杀猪盘”。肖毅正一项一项地解释着，助手小宋推门而入，看到里面肖毅正忙着，有些迟疑，但还是开口道：“打扰一下。<|endoftext|>
 
 ## TODO
-/root/paddlejob/workspace/env_run/thirdparty/lib/python3.11/site-packages/torch/utils/checkpoint.py:429: UserWarning: torch.utils.checkpoint: please pass in use_reentrant=True or use_reentrant=False explicitly. The default value of use_reentrant will be updated to be False in the future. To maintain current behavior, pass use_reentrant=True. It is recommended that you use use_reentrant=False. Refer to docs for more details on the differences between the two variants.
-
-控制输出字数
-
+断点sft训练
+推理服务优化请求方式
+弄清楚参数计算方式
 
 ## 参考文献
 https://ku.baidu-int.com/knowledge/HFVrC7hq1Q/4Hy-9TabAD/UX98TRVAZj/ogiETE-X4SnKic

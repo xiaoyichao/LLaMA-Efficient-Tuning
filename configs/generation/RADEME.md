@@ -14,7 +14,7 @@ min_new_tokens 和 max_new_tokens:
 length_penalty:
 
 用于调节长度惩罚，以便在生成更长或更短的文本时进行微调。length_penalty 设置为 0.1 表示轻微倾向于生成更长的文本。默认值通常为 1，即不应用长度惩罚。
-repetition_pentaly:
+repetition_penalty:
 
 应为 repetition_penalty，是一个打字错误。这个参数旨在减少重复，通过为已生成的词施加惩罚（当设置值大于 1.0 时）。1.05 表示轻微的惩罚，以防止生成重复的内容。
 no_repeat_ngram_size:
@@ -81,6 +81,6 @@ exponential_decay_length_penalty:
 	'generation_kwargs': {},
 	'_from_model_config': False,
 	'transformers_version': '4.37.2',
-	'repetition_pentaly': 1.05
+	'repetition_penalty': 1.05
 }
 ```

@@ -5,7 +5,7 @@
     "min_new_tokens": 256,
     "max_new_tokens": 2048,
     "length_penalty": -0.5,
-    "repetition_pentaly": 1.05,
+    "repetition_penalty": 1.05,
     "no_repeat_ngram_size": 25,
     "exponential_decay_length_penalty": [256, 1.0]
 }
