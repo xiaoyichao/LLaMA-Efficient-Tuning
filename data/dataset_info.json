@@ -2,6 +2,7 @@
   "novel_his_8192_xiao": {
     "file_name": "train/novel_his_8192_xiao.json",
     "columns": {
+      "system": "system_prompt",
       "prompt": "instruction",
       "query": "input",
       "response": "output",

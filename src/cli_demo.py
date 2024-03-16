@@ -12,6 +12,15 @@ try:
 except ImportError:
     print("Install `readline` for a better experience.")
 
+# GEN_CONFIG = 'configs/generation/polish.json'
+
+# chat_model = ChatModel()
+
+# gen_config = chat_model.model.generation_config.to_dict()
+# gen_config.update(json.loads(open(GEN_CONFIG).read()))
+
+# chat_model.generating_args = GenerationConfig(**gen_config)
+# print("gen_config:", gen_config)
 
 def main():
     chat_model = ChatModel()

@@ -144,10 +144,11 @@ python src/api_demo.py \
 
 #### cli_demo
 ```bash
-python src/cli_demo.py \
-    --model_name_or_path checkpoints/novel_all/Qwen1.5-113B-Chat_20240309_235644/checkpoint-1920 \
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python src/cli_demo.py \
+    --model_name_or_path checkpoints/novel_his_8192_xiao/Qwen1.5-113B_20240316_003126/checkpoint-200 \
     --template default \
-    --finetuning_type full
+    --finetuning_type full \
+    --infer_backend vllm
 ```
 
 #### excel 测试
@@ -181,9 +182,14 @@ CUDA_VISIBLE_DEVICES=5 python src/chat_eval_excel.py \
 10.96.202.21: 此时，他正在接待一个打离婚官司的女人，对方对婚姻法一窍不通，简直像掉进了“杀猪盘”。肖毅正一项一项地解释着，助手小宋推门而入，看到里面肖毅正忙着，有些迟疑，但还是开口道：“打扰一下。<|endoftext|>
 
 ## TODO
-断点sft训练
-推理服务优化请求方式
-弄清楚参数计算方式
+qwen templete 的数据的修改
+推理的代码需要修改，generate的config
+vllm的参数和安装（--infer_backend vllm）
+
+qwen templete 的修改
+resume的实现
+流式数据的脚本实现
+
 
 ## 参考文献
 https://ku.baidu-int.com/knowledge/HFVrC7hq1Q/4Hy-9TabAD/UX98TRVAZj/ogiETE-X4SnKic
