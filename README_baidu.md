@@ -188,6 +188,7 @@ vllm的参数和安装（--infer_backend vllm）
 qwen templete 的修改
 resume的实现(在每个节点都保存checkpoints) transformers==4.36.0才不会报错FileNotFoundError: [Errno 2] No such file or directory: 'checkpoints/novel_his_8192_xiao2/Qwen1.5-0.5B-Chat_20240316_165037/trainer_state.json，但是qwen1.5要求transformers>=4.37.2
 流式数据的脚本实现
+威震天框架
 
 
 ## 参考文献

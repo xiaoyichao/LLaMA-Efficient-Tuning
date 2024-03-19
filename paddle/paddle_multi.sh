@@ -9,7 +9,7 @@ job_conf="paddle/config.ini"
 start_cmd=". paddle/job.sh"
 file_dir="."
 job_version="pytorch-1.7.1"
-k8s_trainers=2
+k8s_trainers=3
 k8s_gpu_cards=8
 algo_id=algo-b246a6f3c20940b8
 
