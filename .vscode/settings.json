@@ -1,20 +1,39 @@
 // {
-//     "python.formatting.provider": "autopep8",
-//     "python.linting.z": true
+//     "python.formatting.provider": "yapf",
+//    //  "editor.formatOnSave": true,
+//     "python.formatting.black8Args": ["--max-line-length", "120"],
+//     "python.linting.flake8Enabled": true,
+//     "terminal.integrated.env.osx": {
+//         "PYTHONPATH": "${workspaceFolder}/",
+//      },
+//      "terminal.integrated.env.linux": {
+//         "PYTHONPATH": "${workspaceFolder}/",
+//      },
+//      "terminal.integrated.env.windows": {
+//         "PYTHONPATH": "${workspaceFolder}/",
+//      },
 // }
 {
-    "python.formatting.provider": "autopep8",
-   //  "editor.formatOnSave": true,
-    "python.formatting.autopep8Args": ["--max-line-length", "120"],
+    "workbench.colorTheme": "Default Dark+",
+    "[python]": {
+        "editor.formatOnType": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+    "terminal.integrated.inheritEnv": false,
+    "files.trimTrailingWhitespace": true,
     "python.linting.flake8Enabled": true,
-    "terminal.integrated.env.osx": {
-        "PYTHONPATH": "${workspaceFolder}/",
-     },
-     "terminal.integrated.env.linux": {
-        "PYTHONPATH": "${workspaceFolder}/",
-     },
-     "terminal.integrated.env.windows": {
-        "PYTHONPATH": "${workspaceFolder}/",
-     },
-     
+    "python.linting.flake8Args": [
+        "--max-line-length=128"
+    ],
+    "python.linting.pylintEnabled": false,
+    "python.formatting.provider": "yapf",
+    "python.formatting.yapfArgs": [
+        "--style",
+        "{column_limit: 128}"
+    ],
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "files.autoSave": "onFocusChange"
 }

@@ -1,13 +1,13 @@
 #!/bin/bash
 
-deepspeed --num_gpus 4 ../../src/train_bash.py \
-    --deepspeed ds_z3_config.json \
-    --stage sft \
+deepspeed --include localhost:0,4,7 --master_port=25641 ../../src/train_bash.py \
+    --deepspeed ds_z2_config.json \
+    --stage rm \
     --do_train \
-    --model_name_or_path meta-llama/Llama-2-7b-hf \
-    --dataset alpaca_gpt4_en \
+    --model_name_or_path /home/work/wenku_yq/DataVault/models//Qwen1.5-0.5B-Chat \
+    --dataset oaast_rm_zh \
     --dataset_dir ../../data \
-    --template default \
+    --template qwen \
     --finetuning_type full \
     --output_dir ../../saves/LLaMA2-7B/full/sft \
     --overwrite_cache \

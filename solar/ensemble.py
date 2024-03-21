@@ -1,6 +1,6 @@
-'''
+"""
 solar 模型的思路，集联模型
-'''
+"""
 
 import torch
 from transformers import AutoModel
@@ -9,13 +9,13 @@ from transformers import AutoModel
 def total_params(model):
     """
     计算模型参数总数
-    
+
     Args:
         model (torch.nn.Module): 待计算参数总数的模型
-    
+
     Returns:
         int: 模型参数总数
-    
+
     """
     total_params = sum(p.numel() for p in model.parameters())
     print(f"Total Parameters: {total_params}")
@@ -47,20 +47,22 @@ def modify_and_merge_models(model_path):
 
     return merged_model
 
+
 def save_model(model, save_path):
     """
     保存模型到本地
-    
+
     Args:
         model (object): 需要保存的模型对象
         save_path (str): 保存模型的路径
-    
+
     Returns:
         None
-    
+
     """
     model.save_pretrained(save_path)
     print("模型保存完成")
+
 
 if __name__ == "__main__":
     # 模型路径
@@ -72,5 +74,3 @@ if __name__ == "__main__":
 
     # 保存模型
     save_model(merged_model, save_path)
-
-

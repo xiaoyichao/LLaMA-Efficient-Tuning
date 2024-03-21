@@ -26,13 +26,13 @@ stages=(
 )
 
 datasets=(
-  "novel_his_8192_xiao2"
+  "oaast_rm_zh"
   # "oaast_sft_zh_test"
   # "alpaca_gpt4_zh"
   # "oaast_sft_zh"
 )
 
-models=( 
+models=(
     "Qwen1.5-0.5B-Chat"
     # "Qwen1.5-0.5B-Chat-solar"
     # "Qwen1.5-0.5B"
@@ -153,7 +153,7 @@ num_train_epochs=16
 
 TRAIN="""
 deepspeed --include=localhost:0,2 --master_port=9990 src/train_bash.py \
-    --stage sft \
+    --stage rm \
     --model_name_or_path ${model_path}/${model}\
     --do_train \
     --finetuning_type ${sft_type} \
