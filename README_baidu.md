@@ -156,6 +156,26 @@ CUDA_VISIBLE_DEVICES=5 python src/chat_eval_excel.py \
     --template default \
     --finetuning_type full
 
+#### vllm推理加速
+
+1. 启动controller
+
+```python
+python -m fastchat.serve.controller
+```
+
+1. 加载模型，单节点多卡推理
+
+  ```python
+python -m fastchat.serve.vllm_worker --model-path /root/paddlejob/workspace/env_run/models/Qwen1.5-0.5B --tensor-parallel-size 8 --gpu-memory-utilization 0.7 --dtype bfloat16
+  ```
+
+3. 启动OpenAI API
+
+  ```python
+python -m fastchat.serve.openai_api_server --host 10.96.202.19 --port 8000
+  ```
+
 ### 千问数据样例
 10.96.202.21: inputs:
 10.96.202.21: <|im_start|>system
