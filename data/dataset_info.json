@@ -1,6 +1,6 @@
 {
-  "novel_his_8192_xiao2": {
-    "file_name": "train/novel_his_8192_xiao2.json",
+  "novel_mix": {
+    "file_name": "train/novel_mix.json",
     "columns": {
       "system": "system_prompt",
       "prompt": "instruction",
@@ -9,8 +9,8 @@
       "history": "history"
     }
   },
-  "novel_his_8192_xiao": {
-    "file_name": "train/novel_his_8192_xiao.json",
+  "all_merge_shuffle": {
+    "file_name": "train/all_merge_shuffle.json",
     "columns": {
       "prompt": "instruction",
       "query": "input",
@@ -355,7 +355,7 @@
     "ms_hub_url": "AI-ModelScope/RLAIF-Nectar",
     "ranking": true
   },
-  "orca_dpo_de" : {
+  "orca_dpo_de": {
     "hf_hub_url": "mayflowergmbh/intel_orca_dpo_pairs_de",
     "ranking": true
   },

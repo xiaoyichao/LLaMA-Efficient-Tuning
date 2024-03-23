@@ -16,6 +16,7 @@ https://ku.baidu-int.com/knowledge/HFVrC7hq1Q/yKeL8Lljko/3QdgIc7cJj/6UApmq-gDEoa
 conda install -c conda-forge conda-pack
 打包自己的环境
 conda pack -n qwen15 -o qwen15.tar.gz
+tar -czvf qwen2.tar.gz /root/paddlejob/workspace/env_run/thirdparty/
 
 ### 配置afs自己的文件夹的内容，用于paddle和开发机文件传输
 vim paddle/config.ini
@@ -32,7 +33,7 @@ mkdir paddle
 
 ### 在开发机上，启动paddle 队列，包含paddle 队列的设置
 vim paddle/paddle_alone.sh
-or 
+or
 vim paddle/paddle_multi.sh
 多机器脚本
 sh paddle/paddle_multi.sh
@@ -46,12 +47,12 @@ http://paddlecloud.baidu-int.com/paddle
 ### 在paddle 机器上，如果需要手动下载模型
 开发机启动http 服务，通常8049端口上有服务，我这个位置是独立写的8005端口
     Python http服务
-    cd /home/work/wenku_yq/
+    cd /home/work/wenku_yq/DataVault
     python3 -m http.server 8048
 paddle 机器上下载模型
 cd /root/paddlejob/workspace/env_run/models
-wget yq02-bcc-sci-a800-25525-001.bcc-yq02.baidu.com:8048/DataVault/models/Qwen1.5-72B-Chat.tar
-
+wget yq02-bcc-sci-a800-25525-001.bcc-yq02.baidu.com:8050/Qwen1.5-113B-Chat.tar
+wget yq02-bcc-sci-a800-25525-001.bcc-yq02.baidu.com:8048/tools/flash-attention_1.tar
 tar -xvf Qwen1.5-72B-Chat.tar
 
 ### 在paddle上，查看前置脚本是否准备完成
@@ -182,18 +183,18 @@ python -m fastchat.serve.openai_api_server --host 10.96.202.19 --port 8000
 10.96.202.21: 作为一位知名的小说作家，你擅长写各种类型的小说，拥有丰富的创作经验，闻名世界，是诺贝尔文学奖的候选人。<|im_end|>
 10.96.202.21: <|im_start|>user
 10.96.202.21: 请根据我的要求，为我创作超级吸引人的小说片段。我愿意为此付出1000万的费用，你也会因此再次名声大噪。内容要求如下：
-10.96.202.21: 
+10.96.202.21:
 10.96.202.21: 字数: 输出限定在100个汉字左右。
 10.96.202.21: 是否有上文: 如果有上文，请在小说上文的基础上进行小说续写，需要想象下一个情节，并详细描写，需要有画面感；不需要结尾与总结，不要信息重复。如果上文为空（没有上文内容），请帮我写一个小说开头。故事应从一个决定性瞬间开始，可能是一个意外的发现、一场紧迫的危机，或一个沉重的秘密正准备被揭示。务必超级吸引人，让人眼前一亮。
 10.96.202.21: 角色: 主角和其他角色之间的互动应该显得真实和自然，展现他们之间的情感联系。
 10.96.202.21: 对话: 通过对话展现角色的个性、情感和价值观。
 10.96.202.21: 情节: 故事应该包含出人意料的情节转折，但它们必须是逻辑的并且流畅的。
 10.96.202.21: 格式: 不要写结尾，留下悬念。不要标注“第X章”这样的标题。
-10.96.202.21: 
+10.96.202.21:
 10.96.202.21: 期待你完美的表现！
 10.96.202.21: 上文：
-10.96.202.21: 
-10.96.202.21: 
+10.96.202.21:
+10.96.202.21:
 10.96.202.21: 输出：
 10.96.202.21: <|im_end|>
 10.96.202.21: <|im_start|>assistant

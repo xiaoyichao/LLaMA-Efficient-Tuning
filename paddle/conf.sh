@@ -27,12 +27,12 @@ lsof -i:${free_port}
 
 # 配置环境变量
 echo 'export PATH="/root/paddlejob/workspace/env_run/thirdparty/bin:$PATH"' >> ~/.bashrc
-echo 'export mac="yq02-bcc-sci-a800-25525-001.bcc-yq02.baidu.com:8049/"' >> ~/.bashrc
+echo 'export mac="yq02-bcc-sci-a800-25525-001.bcc-yq02.baidu.com:8048/"' >> ~/.bashrc
 source ~/.bashrc
 
 # 主机和端口
 host="yq02-bcc-sci-a800-25525-001.bcc-yq02.baidu.com"
-port="8049"
+port="8048"
 
 mkdir -p /root/paddlejob/workspace/env_run/tools
 cd /root/paddlejob/workspace/env_run/tools
@@ -42,14 +42,14 @@ tools=(
     "tools/screen_4.6.2-1ubuntu1.1_amd64.deb.tar"
     "tools/pdsh-2.34.tar.gz"
     "tools/cuda_11.8.0_520.61.05_linux.run"
-    "tools/flash-attention.tar"
+    "tools/flash-attention_1.tar"
 )
 
 # 模型文件列表
 models=(
-    # "models/Qwen1.5-14B.tar"
+    "models/Qwen1.5-0.5B.tar"
     "models/Qwen1.5-72B.tar"
-    "models/Qwen1.5-72B-Chat.tar"
+    # "models/Qwen1.5-113B-Chat.tar"
     # "models/Yi-34B-Chat.tar"
     # "models/Baichuan2-13B-Base.tar"
 )
@@ -103,7 +103,7 @@ source ~/.bashrc
 
 # 安装flash-attention
 cd /root/paddlejob/workspace/env_run/tools/flash-attention
-MAX_JOBS=16 python setup.py install
+MAX_JOBS=64 python setup.py install
 cd csrc/layer_norm && pip install .
 
 # 创建目录
@@ -122,5 +122,8 @@ for file in "${models[@]}"; do
         echo -e "\e[32;1m解压文件: $file_name\e[0m"
     fi
 done
+
+cp /root/paddlejob/workspace/env_run/afs/Qwen1.5-113B-Chat.tar /root/paddlejob/workspace/env_run/models
+tar -xvf Qwen1.5-113B-Chat.tar
 
 rm -f *.tar

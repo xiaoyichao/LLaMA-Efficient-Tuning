@@ -27,12 +27,12 @@ stages=(
 
 datasets=(
   # "alpaca_gpt4_zh"
-  "novel_his_8192_xiao2"
+  "all_merge_shuffle,novel_mix"
 	# "oaast_sft_zh"
 
 )
 
-models=( 
+models=(
     "Qwen1.5-113B-Chat"
     # "ChatGLM3-6B-Base"
     # "Baichuan2-13B-Base"
@@ -135,7 +135,7 @@ esac
 #     --save_strategy epoch \
 #     --save_strategy steps \
 #     --save_steps 8 \
-# 
+#
 # afs/Qwen1.5-113B-Chat_20240309_034638/checkpoint-640
 # checkpoints/oaast_sft_zh/Qwen1.5-113B-Chat_20240308_140157
 #  ${model_path}/${model}
@@ -144,7 +144,7 @@ esac
 
 per_device_train_batch_size=1   # MAX 2 FOR Yi-34B on A100
 zero_stage=3
-num_train_epochs=16
+num_train_epochs=10
 
 
 TRAIN="""
@@ -161,7 +161,7 @@ deepspeed --hostfile=/root/paddlejob/workspace/hostfile --num_gpus 8 --master_po
     --overwrite_cache \
     --save_strategy steps \
     --save_steps 100 \
-    --save_total_limit 4 \
+    --save_total_limit 6 \
     --save_only_model \
     --per_device_train_batch_size ${per_device_train_batch_size} \
     --gradient_accumulation_steps 1 \
